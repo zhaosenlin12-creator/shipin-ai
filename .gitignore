@@ -1,0 +1,61 @@
+# Local environments and dependency trees
+**/.venv/
+**/.venv-*/
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/.git/
+
+# Model caches and downloaded checkpoints
+**/model-cache/
+**/pretrained_weights/
+**/checkpoints/
+**/downloads/
+tools/voicebox/
+tools/facefusion/
+tools/facefusion-3.7.1-py311/
+tools/facefusion-3.8.0-py311/
+tools/LivePortrait/
+tools/VoxCPM/
+cangjie-skill/
+tools/ditto-talkinghead/
+
+# Local runtime state and generated build output
+.jobs/
+.superpowers/
+analysis/
+output/
+logs/
+tmp/
+project/build/
+project/output/
+project/node_modules/
+project/hyperframes-first120/output/
+project/hyperframes-first120/diagnostics/
+project/hyperframes-first120/.render-work/
+project/audio/
+project/public/*.wav
+project/public/*.mp3
+project/public/narration.srt
+project/public/avatar-master.mp4
+project/render-*.log
+
+# Private source media and biometric assets
+mp4/
+project/reference/
+project/public/generated/*.png
+project/public/generated/*.jpg
+project/public/generated/*.jpeg
+project/public/generated/*.mp4
+project/hyperframes-first120/assets/*.wav
+project/hyperframes-first120/assets/*.mp4
+
+# Local credentials and machine-specific files
+.env
+.env.*
+*.pem
+*.key
+*credentials*
+*secret*
+*token*
+tools/ffmpeg-probe-staging/

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280,height=720" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { width: 1280px; height: 720px; overflow: hidden; background: #071018; }
+      @font-face { font-family: "Microsoft YaHei"; src: local("Microsoft YaHei"); }
+      @font-face { font-family: "Bahnschrift"; src: local("Bahnschrift"); }
+      @font-face { font-family: "Cascadia Mono"; src: local("Cascadia Mono"); }
+      body { font-family: "Microsoft YaHei", sans-serif; color: #f4f7fa; }
+      #first120 { position: relative; width: 1280px; height: 720px; overflow: hidden; background: #071018; }
+      .avatar-motion-shell { position: absolute; inset: 0; overflow: hidden; }
+      .media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 48%; }
+      .broll { filter: saturate(.78) contrast(1.06) brightness(.78); }
+      .scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(3,10,16,.35) 0%, rgba(3,10,16,.08) 48%, rgba(3,10,16,.76) 100%); }
+      .vignette { position: absolute; inset: 0; z-index: 2; background: radial-gradient(ellipse at 52% 44%, transparent 28%, rgba(2,7,11,.12) 60%, rgba(2,7,11,.68) 100%); }
+      .scene-meta { position: absolute; left: 54px; top: 38px; z-index: 7; max-width: 650px; }
+      .eyebrow { display: flex; align-items: center; gap: 9px; font-family: "Cascadia Mono", monospace; font-size: 13px; font-weight: 800; letter-spacing: 2px; color: #39b9ff; }
+      .eyebrow::before { content: ""; width: 4px; height: 18px; background: currentColor; box-shadow: 8px 0 0 rgba(255,255,255,.14); }
+      .scene-title { margin-top: 9px; font-family: Bahnschrift, sans-serif; font-size: 30px; line-height: 1; font-weight: 900; letter-spacing: .3px; }
+      .card { position: absolute; right: 54px; top: 145px; z-index: 7; width: 378px; min-height: 112px; padding: 17px 19px; border: 1px solid #39b9ff; border-radius: 3px; background: rgba(4,12,19,.9); box-shadow: 0 18px 42px rgba(0,0,0,.38); }
+      .card-cyan { border-color: #55f0d1; } .card-red { border-color: #ff5c64; } .card-green { border-color: #55e37b; }
+      .card-label { font-family: "Cascadia Mono", monospace; font-size: 12px; font-weight: 800; letter-spacing: 1.8px; color: #a9b5bf; }
+      .metric { margin-top: 7px; font-family: Bahnschrift, sans-serif; font-size: 64px; font-weight: 900; line-height: .9; font-variant-numeric: tabular-nums; }
+      .metric-cyan { color: #55f0d1; } .metric-red { color: #ff5c64; } .metric-green { color: #55e37b; }
+      .list { display: grid; gap: 7px; margin-top: 13px; }
+      .list-row { display: grid; grid-template-columns: 25px 1fr 76px; align-items: center; gap: 8px; min-height: 28px; padding: 4px 8px; background: rgba(255,255,255,.07); font-size: 15px; font-weight: 700; }
+      .list-row b { font-family: "Cascadia Mono", monospace; font-size: 11px; color: #55f0d1; }
+      .list-row i { display: block; height: 3px; background: #55f0d1; }
+      .bars { display: grid; gap: 12px; margin-top: 15px; }
+      .bar { display: grid; grid-template-columns: 34px 1fr 42px; align-items: center; gap: 8px; font-family: "Cascadia Mono", monospace; font-size: 11px; color: #a9b5bf; }
+      .bar span { height: 8px; background: rgba(255,255,255,.13); overflow: hidden; } .bar span i { display: block; height: 100%; background: #39b9ff; transform-origin: left center; }
+      .bar b { text-align: right; color: #f4f7fa; font-variant-numeric: tabular-nums; }
+      .flow { display: flex; align-items: center; gap: 7px; margin-top: 16px; font-family: "Cascadia Mono", monospace; font-size: 11px; font-weight: 800; }
+      .flow span { padding: 9px 8px; border: 1px solid #39b9ff; color: #39b9ff; } .flow i { color: #a9b5bf; font-style: normal; }
+      .caption { position: absolute; left: 82px; right: 82px; bottom: 57px; z-index: 8; text-align: center; font-size: 31px; line-height: 1.16; font-weight: 800; text-shadow: 0 3px 14px rgba(0,0,0,.9); }
+      .caption small { display: block; margin-top: 5px; color: #d3dce2; font-family: Bahnschrift, sans-serif; font-size: 14px; font-weight: 600; letter-spacing: .4px; }
+      .footer { position: absolute; left: 54px; right: 54px; bottom: 17px; z-index: 30; display: flex; justify-content: space-between; color: #a9b5bf; font-family: "Cascadia Mono", monospace; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; }
+      .progress { position: absolute; left: 54px; right: 54px; bottom: 8px; z-index: 9; height: 3px; background: rgba(255,255,255,.22); } .progress i { display: block; height: 100%; background: #39b9ff; }
+      .chapter-panel { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; padding: 86px; background: #071018; }
+      .chapter-panel .chapter-box { width: 100%; border-left: 5px solid #39b9ff; padding: 25px 31px; background: rgba(255,255,255,.035); }
+      .chapter-panel p { color: #55f0d1; font-family: "Cascadia Mono", monospace; font-size: 14px; font-weight: 800; letter-spacing: 2px; }
+      .chapter-panel h2 { max-width: 900px; margin-top: 13px; font-family: Bahnschrift, "Microsoft YaHei", sans-serif; font-size: 61px; line-height: .96; letter-spacing: .4px; }
+      .grid-panel { position: absolute; inset: 0; z-index: 3; padding: 135px 78px 92px; background: #071018; }
+      .grid-head { display: flex; justify-content: space-between; max-width: 620px; font-family: "Cascadia Mono", monospace; font-size: 13px; font-weight: 800; letter-spacing: 1.8px; color: #a9b5bf; }
+      .grid-head strong { color: #55e37b; } .cell-grid { display: grid; grid-template-columns: repeat(24, 1fr); gap: 5px; height: 458px; margin-top: 23px; }
+      .cell { background: rgba(255,255,255,.08); } .cell.on { background: #55e37b; } .cell.hot { background: #ff5c64; }
+      .wipe { position: absolute; inset: 0; z-index: 20; background: #071018; transform-origin: right center; }
+    </style>
+  </head>
+  <body>
+    <div id="first120" data-composition-id="first120" data-start="0" data-duration="120" data-width="1280" data-height="720">
+      <div id="avatar-a-shell" class="avatar-motion-shell"><video id="avatar-a" class="clip media" data-start="0" data-duration="40" data-track-index="0" src="assets/avatar-wav2lip-0-40.mp4" muted playsinline></video></div>
+      <img id="broll-campus" class="clip media broll" data-start="40" data-duration="8" data-track-index="0" src="assets/broll-drone-campus.png" />
+      <div id="chapter" class="clip chapter-panel" data-start="48" data-duration="4" data-track-index="0"><div class="chapter-box"><p>QUESTION 01 / THE WINDOW</p><h2>真正的窗口，往往出现在大多数人还没有察觉的阶段</h2></div></div>
+      <img id="broll-gpu" class="clip media broll" data-start="52" data-duration="8" data-track-index="0" src="assets/broll-gpu-macro.png" />
+      <div id="grid" class="clip grid-panel" data-start="60" data-duration="24" data-track-index="0"><div class="grid-head" data-layout-allow-occlusion><strong>GLOBAL / EARLY WINDOW</strong></div><div class="cell-grid" id="cells"></div></div>
+      <img id="broll-data" class="clip media broll" data-start="84" data-duration="8" data-track-index="0" src="assets/broll-data-center.png" />
+      <div id="avatar-b-shell" class="avatar-motion-shell"><video id="avatar-b" class="clip media" data-start="92" data-duration="28" data-track-index="0" src="assets/avatar-wav2lip-92-120.mp4" muted playsinline></video></div>
+      <div class="scrim"></div><div class="vignette"></div>
+
+      <div id="scene-01-meta" class="clip scene-meta" data-start="0" data-duration="4" data-track-index="1"><div class="eyebrow">COLD OPEN</div><div class="scene-title">THE NEXT AI WAVE</div></div>
+      <div class="clip scene-meta" data-start="4" data-duration="4" data-track-index="1"><div class="eyebrow" style="color:#55f0d1">THE BREAKOUT</div><div class="scene-title">0.04%</div></div>
+      <div class="clip scene-meta" data-start="8" data-duration="4" data-track-index="1"><div class="eyebrow">NOT YET</div><div class="scene-title">THE WINDOW IS OPEN</div></div>
+      <div class="clip scene-meta" data-start="12" data-duration="4" data-track-index="1"><div class="eyebrow" style="color:#ff5c64">THE NUMBER</div><div class="scene-title">FOUR IN TEN THOUSAND</div></div>
+      <div class="clip scene-meta" data-start="16" data-duration="4" data-track-index="1"><div class="eyebrow">A BETTER QUESTION</div><div class="scene-title">WHAT ARE YOU BUILDING?</div></div>
+      <div class="clip scene-meta" data-start="20" data-duration="4" data-track-index="1"><div class="eyebrow" style="color:#55e37b">THE HIDDEN GAP</div><div class="scene-title">USE IS NOT LEVERAGE</div></div>
+      <div class="clip scene-meta" data-start="24" data-duration="4" data-track-index="1"><div class="eyebrow" style="color:#55e37b">THE PATTERN</div><div class="scene-title">TRYING IS NOT COMPOUNDING</div></div>
+      <div class="clip scene-meta" data-start="28" data-duration="4" data-track-index="1"><div class="eyebrow" style="color:#ff5c64">FAILURE MODE</div><div class="scene-title">NO MEMORY, NO SYSTEM</div></div>
+      <div class="clip scene-meta" data-start="32" data-duration="4" data-track-index="1"><div class="eyebrow" style="color:#55e37b">THE SYSTEM</div><div class="scene-title">MORE OUTPUT, LESS RESTART</div></div>
+      <div class="clip scene-meta" data-start="36" data-duration="4" data-track-index="1"><div class="eyebrow">INFRASTRUCTURE</div><div class="scene-title">COMPUTE MOVES DOWN</div></div>
+      <div class="clip scene-meta" data-start="40" data-duration="8" data-track-index="1"><div class="eyebrow">ALREADY HERE</div><div class="scene-title">THE INFRASTRUCTURE IS REAL</div></div>
+      <div class="clip scene-meta" data-start="52" data-duration="8" data-track-index="1"><div class="eyebrow">QUESTION 01</div><div class="scene-title">WHEN DOES IT BEGIN?</div></div>
+      <div class="clip scene-meta" data-start="60" data-duration="24" data-track-index="1"><div class="eyebrow" style="color:#55e37b">THE EARLY WINDOW</div><div class="scene-title">THE GRID IS FILLING</div></div>
+      <div class="clip scene-meta" data-start="84" data-duration="8" data-track-index="1"><div class="eyebrow">CAPACITY</div><div class="scene-title">THE LIMIT IS NOT INTEREST</div></div>
+      <div class="clip scene-meta" data-start="92" data-duration="8" data-track-index="1"><div class="eyebrow" style="color:#ff5c64">THE PRACTICAL MOVE</div><div class="scene-title">START BEFORE IT IS OBVIOUS</div></div>
+      <div class="clip scene-meta" data-start="100" data-duration="8" data-track-index="1"><div class="eyebrow" style="color:#55e37b">THE LEVER</div><div class="scene-title">CRAFT + AI</div></div>
+      <div class="clip scene-meta" data-start="108" data-duration="8" data-track-index="1"><div class="eyebrow">THE LOOP</div><div class="scene-title">COPY / ASSET / EDIT / PUBLISH</div></div>
+      <div class="clip scene-meta" data-start="116" data-duration="4" data-track-index="1"><div class="eyebrow">END CARD</div><div class="scene-title">START BEFORE THE WAVE</div></div>
+
+      <div class="clip card card-cyan" data-start="4" data-duration="4" data-track-index="2"><div class="card-label">SERIOUS AI BUILDERS</div><div class="metric metric-cyan">0.04%</div></div>
+      <div class="clip card card-red" data-start="12" data-duration="4" data-track-index="2"><div class="card-label">EARLY POSITION</div><div class="metric metric-red">01</div></div>
+      <div class="clip card" data-start="16" data-duration="4" data-track-index="2"><div class="card-label">WORKFLOW SIGNAL</div><div class="list"><div class="list-row"><b>01</b>任务正在运行<i style="width:88%"></i></div><div class="list-row"><b>02</b>结果正在沉淀<i style="width:63%"></i></div><div class="list-row"><b>03</b>下一次可复用<i style="width:76%"></i></div></div></div>
+      <div class="clip card card-green" data-start="20" data-duration="8" data-track-index="2"><div class="card-label">REPEATED WORK</div><div class="list"><div class="list-row"><b>01</b>打开工具<i style="width:42%"></i></div><div class="list-row"><b>02</b>重新输入<i style="width:65%"></i></div><div class="list-row"><b>03</b>从零开始<i style="width:88%"></i></div></div></div>
+      <div class="clip card card-red" data-start="28" data-duration="4" data-track-index="2"><div class="card-label">CONTEXT LOST</div><div class="list"><div class="list-row"><b>01</b>没有上下文<i style="width:70%;background:#ff5c64"></i></div><div class="list-row"><b>02</b>没有资产<i style="width:50%;background:#ff5c64"></i></div><div class="list-row"><b>03</b>没有复用<i style="width:82%;background:#ff5c64"></i></div></div></div>
+      <div class="clip card card-green" data-start="32" data-duration="4" data-track-index="2"><div class="card-label">OUTPUT CAPACITY</div><div class="bars"><div class="bar">01<span><i style="width:42%;background:#55e37b"></i></span><b>42%</b></div><div class="bar">02<span><i style="width:67%;background:#55e37b"></i></span><b>67%</b></div><div class="bar">03<span><i style="width:88%;background:#55e37b"></i></span><b>88%</b></div></div></div>
+      <div class="clip card card-cyan" data-start="44" data-duration="4" data-track-index="2"><div class="card-label">EARLY POSITION</div><div class="metric metric-cyan">01</div></div>
+      <div class="clip card" data-start="52" data-duration="8" data-track-index="2"><div class="card-label">COMPUTE CAPACITY</div><div class="bars"><div class="bar">NOW<span><i style="width:36%"></i></span><b>36%</b></div><div class="bar">NEXT<span><i style="width:58%"></i></span><b>58%</b></div><div class="bar">WAVE<span><i style="width:82%"></i></span><b>82%</b></div></div></div>
+      <div class="clip card card-green" data-start="60" data-duration="12" data-track-index="2"><div class="card-label">GLOBAL SCALE</div><div class="metric metric-green">2,400</div><div class="card-label" style="margin-top:12px">SIGNAL CELLS</div></div>
+      <div class="clip card card-red" data-start="72" data-duration="12" data-track-index="2"><div class="card-label">BUILDER POSITION</div><div class="metric metric-red">0.04%</div></div>
+      <div class="clip card" data-start="84" data-duration="8" data-track-index="2"><div class="card-label">SYSTEM LOAD</div><div class="bars"><div class="bar">INPUT<span><i style="width:18%"></i></span><b>18%</b></div><div class="bar">TOOLS<span><i style="width:47%"></i></span><b>47%</b></div><div class="bar">VALUE<span><i style="width:83%"></i></span><b>83%</b></div></div></div>
+      <div class="clip card card-red" data-start="96" data-duration="4" data-track-index="2"><div class="card-label">EARLY IS A POSITION</div><div class="metric metric-red">NOW</div></div>
+      <div class="clip card card-green" data-start="100" data-duration="4" data-track-index="2"><div class="card-label">LEVERAGE</div><div class="bars"><div class="bar">CRAFT<span><i style="width:54%;background:#55e37b"></i></span><b>54%</b></div><div class="bar">AI<span><i style="width:91%;background:#55e37b"></i></span><b>91%</b></div></div></div>
+      <div class="clip card" data-start="104" data-duration="8" data-track-index="2"><div class="card-label">THE LOOP</div><div class="flow"><span>COPY</span><i>-&gt;</i><span>ASSET</span><i>-&gt;</i><span>EDIT</span><i>-&gt;</i><span>PUBLISH</span></div></div>
+      <div class="clip card card-cyan" data-start="112" data-duration="4" data-track-index="2"><div class="card-label">REUSE</div><div class="metric metric-cyan">10X</div></div>
+      <div class="clip card" data-start="116" data-duration="4" data-track-index="2"><div class="card-label">THE FIRST MOVE</div><div class="metric">START</div></div>
+
+      <div class="clip caption" data-start="0" data-duration="4" data-track-index="3">AI 鐪熸鐨勫ぇ鐖嗗彂锛屼篃璁歌繕娌℃湁寮€濮嬨€?small>THE REAL BREAKOUT MAY STILL BE AHEAD.</small></div>
+      <div class="clip caption" data-start="4" data-duration="4" data-track-index="3">鐪熸鎶?AI 鍙樻垚鐢熶骇鍔涚殑浜猴紝浠嶇劧鍙槸鏋佸皬鐨勪竴缇ゃ€?small>A TINY GROUP IS TURNING AI INTO OUTPUT.</small></div>
+      <div class="clip caption" data-start="8" data-duration="4" data-track-index="3">鐜板湪鐨勯棶棰樹笉鏄敊杩囦簡浠€涔堬紝鑰屾槸浣犳湁娌℃湁寮€濮嬬Н绱€?small>THE QUESTION IS WHETHER YOU HAVE STARTED TO COMPOUND.</small></div>
+      <div class="clip caption" data-start="12" data-duration="4" data-track-index="3">鏃╋紝涓嶆槸涓€绉嶈韩浠斤紝鏄竴绉嶆寔缁鍔ㄣ€?small>EARLY IS A PRACTICE, NOT A LABEL.</small></div>
+      <div class="clip caption" data-start="16" data-duration="4" data-track-index="3">涓嶈鍙棶宸ュ叿鑳藉仛浠€涔堬紝鍏堥棶瀹冭兘鏇夸綘鐣欎笅浠€涔堛€?small>ASK WHAT THE TOOL CAN LEAVE BEHIND.</small></div>
+      <div class="clip caption" data-start="20" data-duration="4" data-track-index="3">姣忓ぉ鎵撳紑宸ュ叿锛屼笉浼氳嚜鍔ㄥ舰鎴愪紭鍔裤€?small>USING A TOOL DAILY DOES NOT CREATE LEVERAGE.</small></div>
+      <div class="clip caption" data-start="24" data-duration="4" data-track-index="3">娌℃湁琚繚瀛樼殑缁忛獙锛屼細鍦ㄤ笅涓€娆＄户缁粠闆跺紑濮嬨€?small>UNSAVED EXPERIENCE RESTARTS FROM ZERO.</small></div>
+      <div class="clip caption" data-start="28" data-duration="4" data-track-index="3">澶卞幓涓婁笅鏂囷紝缁撴灉灏卞彧鑳介潬杩愭皵銆?small>WITHOUT CONTEXT, RESULTS DEPEND ON LUCK.</small></div>
+      <div class="clip caption" data-start="32" data-duration="4" data-track-index="3">鎶婁竴娆℃垚鍔熷仛鎴愭祦绋嬶紝鎵嶄細鏈夋洿澶х殑杈撳嚭銆?small>TURN ONE WIN INTO A REPEATABLE SYSTEM.</small></div>
+      <div class="clip caption" data-start="36" data-duration="4" data-track-index="3">绠楀姏姝ｅ湪涓嬫矇锛屼絾鍒ゆ柇鍔涜繕娌℃湁鏅強銆?small>COMPUTE IS FALLING; JUDGMENT IS NOT.</small></div>
+      <div class="clip caption" data-start="40" data-duration="4" data-track-index="3">鍩虹璁炬柦宸茬粡鍒颁綅锛屽樊鐨勬槸鏈変汉鎶婂畠鍙樻垚鎴愭灉銆?small>THE INFRASTRUCTURE EXISTS. EXECUTION IS THE GAP.</small></div>
+      <div class="clip caption" data-start="44" data-duration="4" data-track-index="3">浣犺兘鐪嬭杩欎欢浜嬶紝鏈韩灏辫鏄庝綘杩樺湪鏃╂湡绐楀彛閲屻€?small>SEEING THE SHIFT MEANS YOU ARE STILL EARLY.</small></div>
+      <div class="clip caption" data-start="48" data-duration="4" data-track-index="3">鎺ヤ笅鏉ュ厛鍥炵瓟涓€涓棶棰橈細鏈轰細浠庝粈涔堟椂鍊欏紑濮嬪彉寰楃湡瀹烇紵<small>WHEN DOES THE OPPORTUNITY BECOME REAL?</small></div>
+      <div class="clip caption" data-start="52" data-duration="4" data-track-index="3">褰撹兘鍔涖€佹垚鏈拰闇€姹傚悓鏃惰法杩囬槇鍊硷紝娴疆鎵嶄細鍑虹幇銆?small>THE WAVE ARRIVES WHEN CAPABILITY, COST, AND DEMAND CROSS.</small></div>
+      <div class="clip caption" data-start="56" data-duration="4" data-track-index="3">鑰屾鍒伙紝鏈€鍊煎緱鍋氱殑鏄彁鍓嶅缓绔嬭嚜宸辩殑宸ヤ綔娴併€?small>BUILD YOUR OWN WORKFLOW BEFORE THE RUSH.</small></div>
+      <div class="clip caption" data-start="60" data-duration="4" data-track-index="3">鎶婂鏉備笘鐣屾媶鎴愮綉鏍硷紝浣犱細鐪嬫竻鐪熸绋€缂虹殑涓嶆槸淇℃伅銆?small>GRID THE WORLD AND SEE WHAT IS ACTUALLY SCARCE.</small></div>
+      <div class="clip caption" data-start="64" data-duration="4" data-track-index="3">姣忎竴涓牸瀛愰兘浠ｈ〃澶ч噺闇€姹傘€佸満鏅拰閲嶅鍔冲姩銆?small>EACH CELL HOLDS DEMAND, CONTEXT, AND REPEATED WORK.</small></div>
+      <div class="clip caption" data-start="68" data-duration="4" data-track-index="3">澶у鏁板尯鍩熶細琚伐鍏疯鐩栵紝浣嗗皯鏁颁汉浼氬缓绔嬬郴缁熴€?small>TOOLS COVER MOST AREAS. SYSTEMS BELONG TO A FEW.</small></div>
+      <div class="clip caption" data-start="72" data-duration="4" data-track-index="3">缁胯壊浠ｈ〃鍙互琚皟鐢ㄧ殑璧勬簮锛岀孩鑹蹭唬琛ㄤ綘鐨勪富鍔ㄤ綅缃€?small>GREEN IS RESOURCE. RED IS YOUR POSITION.</small></div>
+      <div class="clip caption" data-start="76" data-duration="4" data-track-index="3">浣嶇疆涓嶆槸绛夋潵鐨勶紝鏄湪閲嶅浜や粯閲岃鍗犱綇鐨勩€?small>A POSITION IS CLAIMED THROUGH REPEATED DELIVERY.</small></div>
+      <div class="clip caption" data-start="80" data-duration="4" data-track-index="3">鐪熸鑳藉鍒╃殑锛屾槸涓€娆℃琚獙璇佽繃鐨勬祦绋嬨€?small>ONLY A TESTED PROCESS CAN COMPOUND.</small></div>
+      <div class="clip caption" data-start="84" data-duration="4" data-track-index="3">鐜板湪骞朵笉缂哄叴瓒ｏ紝缂虹殑鏄妸鍏磋叮杞垚涓氬姟鍔ㄤ綔鐨勪汉銆?small>INTEREST IS PLENTIFUL. ACTION IS RARE.</small></div>
+      <div class="clip caption" data-start="88" data-duration="4" data-track-index="3">褰撴洿澶氫汉娑岃繘鏉ワ紝宸窛浼氬緢蹇媺寮€銆?small>WHEN THE CROWD ARRIVES, THE GAP OPENS FAST.</small></div>
+      <div class="clip caption" data-start="92" data-duration="4" data-track-index="3">鐪熸鐨勬満浼氾紝涓嶄細绛夊埌鎵€鏈変汉閮界湅鎳傛墠寮€濮嬨€?small>OPPORTUNITY DOES NOT WAIT FOR CONSENSUS.</small></div>
+      <div class="clip caption" data-start="96" data-duration="4" data-track-index="3">涓嶈绛夊埌澶у閮藉湪璁?AI 鐨勬椂鍊欙紝鎵嶇粰鑷繁鎺掗槦銆?small>DO NOT JOIN THE LINE AFTER EVERYONE SEES IT.</small></div>
+      <div class="clip caption" data-start="100" data-duration="4" data-track-index="3">鎶?AI 鏀捐繘浣犲凡缁忕悊瑙ｇ殑涓撲笟閲岋紝瀹冩墠浼氫骇鐢熸潬鏉嗐€?small>PUT AI INSIDE A CRAFT YOU ALREADY UNDERSTAND.</small></div>
+      <div class="clip caption" data-start="104" data-duration="4" data-track-index="3">浠庝竴涓皬闂幆寮€濮嬶細鏂囨銆佽祫浜с€佸壀杈戙€佸彂甯冦€?small>START WITH ONE LOOP: COPY, ASSET, EDIT, PUBLISH.</small></div>
+      <div class="clip caption" data-start="108" data-duration="4" data-track-index="3">姣忛噸澶嶄竴娆★紝涓嬩竴娆″氨涓嶅繀鍐嶄粠澶村彂鏄庛€?small>EACH REPETITION REMOVES THE NEXT RESTART.</small></div>
+      <div class="clip caption" data-start="112" data-duration="4" data-track-index="3">浣犵殑浼樺娍浼氬湪澶嶇敤閲屾參鎱㈠彉澶с€?small>YOUR ADVANTAGE GROWS THROUGH REUSE.</small></div>
+      <div class="clip caption" data-start="116" data-duration="4" data-track-index="3">鐜板湪灏卞紑濮嬶紝鍏堟垚涓洪偅涓効鎰忛暱鏈熺Н绱殑浜恒€?small>START NOW. BECOME THE ONE WHO COMPOUNDS.</small></div>
+
+      <div class="clip wipe" data-start="40" data-duration=".38" data-track-index="4"></div><div class="clip wipe" data-start="48" data-duration=".38" data-track-index="4"></div><div class="clip wipe" data-start="52" data-duration=".38" data-track-index="4"></div><div class="clip wipe" data-start="60" data-duration=".38" data-track-index="4"></div><div class="clip wipe" data-start="84" data-duration=".38" data-track-index="4"></div><div class="clip wipe" data-start="92" data-duration=".38" data-track-index="4"></div>
+      <audio id="narration" data-start="0" data-duration="120" data-track-index="5" data-volume="1" src="assets/narration.wav"></audio>
+      <div class="footer" data-layout-ignore><span>AI POSITION / FIRST 120</span><span>GENERATED AVATAR / MASTERED VOICE</span></div><div class="progress"><i></i></div>
+    </div>
+    <script>
+      const zhCaptions = [
+        'AI真正的爆发期，还没有开始',
+        '我把这件事想得很深',
+        '现在这个情况还没有爆发',
+        '但是真正认真使用 AI 的人，可能全世界只有万分之四',
+        '你现在不要着急把世界都押在 AI 上',
+        '很多人每天都在用工具，却没有积累优势',
+        '因为最近大家都在疯狂体验',
+        '或者为什么他回答内容变得很差',
+        '我就可以给你更多的东西',
+        '直接把算力给拉下来了',
+        '但实际上你现在能刷到我这条视频',
+        '你已经站在最早期这批人里',
+        '那就证明你实际上已经是最早期的一批人',
+        '我们就先从辉瑞博士的这个问题开始',
+        '那我们就先来聊一聊到底什么时候能开始',
+        '首先为什么说只有这么早',
+        '把全球 81 亿人分成 2500 个格子',
+        '一格代表 320 万人',
+        '占代表基本资源的绿色被填充',
+        '那红色的才是我这种人',
+        '意愿持续去订阅知识套餐',
+        '全球七十多亿人，其中只有很少一部分',
+        '真正的爆发才会开始',
+        '但是我想告诉你，真正的机会已经开始',
+        '不要等到所有人都知道以后再开始',
+        '把 AI 放进你已经理解的专业里',
+        '从一条小闭环开始',
+        '优势会在重复里变大',
+        '下一次只替换内容，不重新发明流程',
+        '你现在就已经在最早的万分之四里'
+      ];
+      document.querySelectorAll('.caption').forEach((element, index) => {
+        element.firstChild.nodeValue = zhCaptions[index];
+      });
+      const cells = document.getElementById('cells');
+      for (let i = 0; i < 240; i += 1) { const cell = document.createElement('i'); cell.className = i < 207 ? 'cell on' : i > 232 ? 'cell hot' : 'cell'; cells.appendChild(cell); }
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      document.querySelectorAll('.scene-meta, .caption, .card').forEach((element) => { const t = Number(element.dataset.start) + .16; tl.from(element, { opacity: 0, y: 18, duration: .42, ease: 'power3.out' }, t); });
+      document.querySelectorAll('.wipe').forEach((element) => { const t = Number(element.dataset.start); tl.from(element, { scaleX: 1, duration: .34, ease: 'expo.out' }, t); });
+      tl.to('#avatar-a-shell', { x: 7, y: -4, scale: 1.025, duration: 4, ease: 'sine.inOut', repeat: 9, yoyo: true }, 0);
+      tl.to('#avatar-b-shell', { x: -8, y: 4, scale: 1.03, duration: 4, ease: 'sine.inOut', repeat: 6, yoyo: true }, 92);
+      tl.from('#chapter .chapter-box', { opacity: 0, x: -40, duration: .6, ease: 'expo.out' }, 48.18);
+      tl.from('#grid .cell', { opacity: 0, scale: .62, duration: .28, stagger: .006, ease: 'power2.out' }, 60.18);
+      tl.to('.progress i', { width: '100%', duration: 120, ease: 'none' }, 0);
+      window.__timelines['first120'] = tl;
+    </script>
+  </body>
+</html>

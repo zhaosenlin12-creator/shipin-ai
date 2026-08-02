@@ -1,0 +1,8 @@
+Use case: identity-preserve
+Asset type: horizontal 16:9 digital-human presenter plate for a short AI explainer video
+Input image role: edit target and identity reference
+Primary request: Create a new, photorealistic pose of the same male East Asian presenter from the input image. Preserve his facial identity, short dark hairstyle, thin rectangular glasses, black short-sleeve shirt, dark server-room studio background, color grade, lighting direction, and exact landscape camera framing.
+Subject pose: speaking naturally, one hand open with the palm facing slightly upward near the chest, the other hand lower and relaxed, with a small forward lean and attentive expression as if delivering a practical conclusion.
+Composition/framing: 1280x720 landscape composition. Keep his head at the same height and scale as the input, left-of-center. Keep the entire right half of the frame empty and dark for motion-graphics cards.
+Constraints: mouth closed and neutral for later audio-driven lip sync; clean original generated scene; no visual text; no logos; no watermark; no duplicate fingers; no extra people; no source wall or source-video background.
+Avoid: a frozen mannequin pose, cropped hands, distorted glasses, unreadable facial features, camera-angle changes, blue-purple gradient overlays.

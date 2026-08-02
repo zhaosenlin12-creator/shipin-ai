@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clone Voice With Voicebox"
+  short_description: "Create continuous mastered narration from an approved voice reference."
+  default_prompt: "Use Voicebox Qwen3-TTS to clone the approved voice, master one continuous narration WAV, and record provenance."

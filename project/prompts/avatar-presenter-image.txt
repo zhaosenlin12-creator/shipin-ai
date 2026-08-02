@@ -1,0 +1,13 @@
+Use case: identity-preserve
+Asset type: horizontal 16:9 Remotion presenter plate for an AI explainer video.
+Input image role: identity and upper-body reference only.
+Primary request: Create a clean digital-human presenter image based on the input person's facial identity, black shirt, glasses, hairstyle, and confident speaking posture.
+Style/medium: photorealistic cinematic documentary frame, polished creator-video look, natural skin texture, realistic lens rendering.
+Scene/backdrop: dark modern AI studio, subtle server-room depth, soft practical lights, no readable signs, no office wall, no source-video background.
+Subject: young Chinese male presenter facing the camera, waist-up framing, black shirt, glasses, hands in a natural explanatory gesture, calm confident expression, mouth slightly open as if speaking.
+Composition/framing: 1280x720 landscape, presenter placed slightly left of center so the right side has negative space for data cards, head and mouth fully visible, shoulders and hands visible, no cropping of the face.
+Lighting/mood: cool key light with soft cyan rim light, restrained high-contrast cinematic lighting, clear readable face.
+Color palette: dark charcoal, cool blue, cyan highlights, natural skin tones, black clothing.
+Text (verbatim): none.
+Constraints: preserve the input person's core identity, glasses, hairstyle, black shirt, and speaking-presenter feel. Generate a new clean studio scene rather than copying the source frame. No watermark, no logos, no subtitles, no UI, no random text.
+Avoid: distorted face, extra people, duplicated hands, blurred eyes, unreadable mouth, cartoon style, anime style, plastic skin, source-video wall text, Douyin marks, creator handles.

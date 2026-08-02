@@ -1,0 +1,365 @@
+{
+  "version": 2,
+  "fps": 60,
+  "width": 1280,
+  "height": 720,
+  "targetDurationSeconds": 120,
+  "referenceVideo": "mp4/9e61c373398f12c4179ae3a2ba24060b_raw.mp4",
+  "avatarReferenceVideo": "mp4/shuziren1.mp4",
+  "derivedAssets": [
+    "generated/presenter-user-avatar.png",
+    "generated/broll-drone-campus.png",
+    "generated/presenter-user-avatar-neutral.png",
+    "generated/broll-gpu-macro.png",
+    "generated/broll-data-center.png",
+    "narration.wav"
+  ],
+  "safeArea": { "left": 56, "right": 56, "top": 42, "bottom": 52 },
+  "captionBounds": { "left": 84, "right": 1196, "top": 540, "bottom": 666 },
+  "style": {
+    "palette": {
+      "ink": "#f4f7fa",
+      "muted": "#a9b5bf",
+      "blue": "#39b9ff",
+      "cyan": "#55f0d1",
+      "green": "#55e37b",
+      "red": "#ff5c64",
+      "purple": "#ad7cff",
+      "panel": "#091016"
+    },
+    "chapterChangeSeconds": 4,
+    "caption": {
+      "fontFamily": "Arial, Microsoft YaHei, sans-serif",
+      "fontSize": 34,
+      "englishSize": 15,
+      "shadow": "0 3px 14px rgba(0,0,0,0.82)"
+    }
+  },
+  "scenes": [
+    {
+      "id": "s001-hook",
+      "start": 0,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "purple",
+      "caption": { "zh": "AI真正的爆发期，还没有开始", "en": "The real AI breakout has not started yet." },
+      "chapter": { "eyebrow": "COLD OPEN", "title": "THE NEXT AI WAVE", "accent": "blue" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" }
+    },
+    {
+      "id": "s002-hook-stat",
+      "start": 4,
+      "duration": 4,
+      "layout": "presenter-stat",
+      "tone": "purple",
+      "caption": { "zh": "我把这件事想得很深", "en": "I kept thinking about this." },
+      "chapter": { "eyebrow": "THE BREAKOUT", "title": "0.04%", "accent": "cyan" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-left" },
+      "card": { "type": "stat", "label": "真正认真使用 AI 的人", "value": "0.04%", "accent": "cyan" }
+    },
+    {
+      "id": "s003-interview",
+      "start": 8,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "blue",
+      "caption": { "zh": "现在这个情况还没有爆发", "en": "The situation has not broken out yet." },
+      "chapter": { "eyebrow": "COLD OPEN", "title": "NOT YET", "accent": "blue" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" }
+    },
+    {
+      "id": "s004-answer",
+      "start": 12,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "red",
+      "caption": { "zh": "但是真正认真使用 AI 的人，可能全世界只有万分之四", "en": "Perhaps only four in ten thousand are using AI seriously." },
+      "chapter": { "eyebrow": "THE NUMBER", "title": "0.04%", "accent": "red" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-right" },
+      "card": { "type": "stat", "label": "认真使用 AI 的人", "value": "0.04%", "accent": "red" }
+    },
+    {
+      "id": "s005-screen",
+      "start": 16,
+      "duration": 4,
+      "layout": "presenter-card",
+      "tone": "blue",
+      "caption": { "zh": "你现在不要着急把世界都押在 AI 上", "en": "Do not rush to bet everything on AI." },
+      "chapter": { "eyebrow": "A DIFFERENT QUESTION", "title": "WHY NOW?", "accent": "blue" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" },
+      "card": { "type": "chat", "label": "CODEX / WORKFLOW", "rows": ["代码正在运行", "结果还没有出来", "继续验证"] }
+    },
+    {
+      "id": "s006-chat",
+      "start": 20,
+      "duration": 4,
+      "layout": "presenter-card",
+      "tone": "green",
+      "caption": { "zh": "很多人每天都在用工具，却没有积累优势", "en": "Many people use tools daily without building leverage." },
+      "chapter": { "eyebrow": "THE HIDDEN GAP", "title": "USE IS NOT LEVERAGE", "accent": "green" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-left" },
+      "card": { "type": "chat", "label": "REPEATED WORK", "rows": ["打开工具", "输入提示词", "重新开始"] }
+    },
+    {
+      "id": "s007-message",
+      "start": 24,
+      "duration": 4,
+      "layout": "presenter-card",
+      "tone": "green",
+      "caption": { "zh": "因为最近大家都在疯狂体验", "en": "Because everyone is trying everything at once." },
+      "chapter": { "eyebrow": "THE PATTERN", "title": "TRY EVERYTHING", "accent": "green" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" },
+      "card": { "type": "chat", "label": "ACTIVITY", "rows": ["新模型", "新插件", "新工作流"] }
+    },
+    {
+      "id": "s008-answer-bad",
+      "start": 28,
+      "duration": 4,
+      "layout": "presenter-card",
+      "tone": "red",
+      "caption": { "zh": "或者为什么他回答内容变得很差", "en": "Or why the answers become so bad." },
+      "chapter": { "eyebrow": "THE FAILURE MODE", "title": "NO MEMORY", "accent": "red" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-right" },
+      "card": { "type": "warning", "label": "CONTEXT LOST", "rows": ["没有上下文", "没有资产", "没有复用"] }
+    },
+    {
+      "id": "s009-more",
+      "start": 32,
+      "duration": 4,
+      "layout": "presenter-card",
+      "tone": "green",
+      "caption": { "zh": "我就可以给你更多的东西", "en": "A system can give you more." },
+      "chapter": { "eyebrow": "THE SYSTEM", "title": "MORE OUTPUT", "accent": "green" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" },
+      "card": { "type": "bars", "label": "OUTPUT CAPACITY", "values": [42, 67, 88], "accent": "green" }
+    },
+    {
+      "id": "s010-openai",
+      "start": 36,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "blue",
+      "caption": { "zh": "直接把算力给拉下来了", "en": "The compute has been pulled down to everyone." },
+      "chapter": { "eyebrow": "THE INFRASTRUCTURE", "title": "COMPUTE MOVES DOWN", "accent": "blue" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-left" }
+    },
+    {
+      "id": "s011-campus",
+      "start": 40,
+      "duration": 4,
+      "layout": "broll-full",
+      "tone": "blue",
+      "caption": { "zh": "但实际上你现在能刷到我这条视频", "en": "But the fact that you can see this video matters." },
+      "chapter": { "eyebrow": "ALREADY HERE", "title": "THE INFRASTRUCTURE IS REAL", "accent": "blue" },
+      "visual": { "type": "broll", "asset": "generated/broll-drone-campus.png", "motion": "pan-up" }
+    },
+    {
+      "id": "s012-campus-point",
+      "start": 44,
+      "duration": 4,
+      "layout": "broll-full",
+      "tone": "blue",
+      "caption": { "zh": "你已经站在最早期这批人里", "en": "You are already among the earliest people here." },
+      "chapter": { "eyebrow": "EARLY ADOPTERS", "title": "YOU ARE ALREADY INSIDE", "accent": "cyan" },
+      "visual": { "type": "broll", "asset": "generated/broll-drone-campus.png", "motion": "push-in" },
+      "card": { "type": "stat", "label": "EARLY POSITION", "value": "01", "accent": "cyan" }
+    },
+    {
+      "id": "s013-chapter",
+      "start": 48,
+      "duration": 4,
+      "layout": "chapter-list",
+      "tone": "blue",
+      "caption": { "zh": "那就证明你实际上已经是最早期的一批人", "en": "That proves you are already early." },
+      "chapter": { "eyebrow": "TODAY / 5 THINGS", "title": "WHAT HAPPENS NEXT", "accent": "blue" },
+      "visual": { "type": "chapter-list", "items": ["何时开始", "什么峰值", "能持续多久", "还有哪些区间", "普通人如何进入"] }
+    },
+    {
+      "id": "s014-gpu",
+      "start": 52,
+      "duration": 4,
+      "layout": "broll-card",
+      "tone": "blue",
+      "caption": { "zh": "我们就先从辉瑞博士的这个问题开始", "en": "Let us start with the first question." },
+      "chapter": { "eyebrow": "QUESTION 01", "title": "WHEN DOES IT START?", "accent": "blue" },
+      "visual": { "type": "broll", "asset": "generated/broll-gpu-macro.png", "motion": "pan-left" },
+      "card": { "type": "stat", "label": "COMPUTE", "value": "01", "accent": "blue" }
+    },
+    {
+      "id": "s015-gpu-fan",
+      "start": 56,
+      "duration": 4,
+      "layout": "broll-card",
+      "tone": "purple",
+      "caption": { "zh": "那我们就先来聊一聊到底什么时候能开始", "en": "When can the next wave actually begin?" },
+      "chapter": { "eyebrow": "QUESTION 01", "title": "WHEN CAN IT BEGIN?", "accent": "purple" },
+      "visual": { "type": "broll", "asset": "generated/broll-gpu-macro.png", "motion": "push-in" },
+      "card": { "type": "bars", "label": "CAPACITY", "values": [34, 57, 76], "accent": "purple" }
+    },
+    {
+      "id": "s016-grid",
+      "start": 60,
+      "duration": 4,
+      "layout": "grid-panel",
+      "tone": "green",
+      "caption": { "zh": "首先为什么说只有这么早", "en": "Why does early matter?" },
+      "chapter": { "eyebrow": "THE EARLY WINDOW", "title": "THE GRID IS FILLING", "accent": "green" },
+      "visual": { "type": "grid", "fill": 0.18 },
+      "card": { "type": "stat", "label": "ACTIVE COMPUTE", "value": "18%", "accent": "green" }
+    },
+    {
+      "id": "s017-grid-2",
+      "start": 64,
+      "duration": 4,
+      "layout": "grid-panel",
+      "tone": "green",
+      "caption": { "zh": "把全球 81 亿人分成 2500 个格子", "en": "Divide 8.1 billion people into 2,500 cells." },
+      "chapter": { "eyebrow": "THE SCALE", "title": "2,500 CELLS", "accent": "green" },
+      "visual": { "type": "grid", "fill": 0.36 },
+      "card": { "type": "stat", "label": "ONE CELL", "value": "3.2M", "accent": "green" }
+    },
+    {
+      "id": "s018-grid-3",
+      "start": 68,
+      "duration": 4,
+      "layout": "grid-panel",
+      "tone": "green",
+      "caption": { "zh": "一格代表 320 万人", "en": "One cell represents 3.2 million people." },
+      "chapter": { "eyebrow": "THE SCALE", "title": "3.2M PEOPLE", "accent": "cyan" },
+      "visual": { "type": "grid", "fill": 0.52 },
+      "card": { "type": "stat", "label": "GLOBAL POPULATION", "value": "8.1B", "accent": "cyan" }
+    },
+    {
+      "id": "s019-grid-4",
+      "start": 72,
+      "duration": 4,
+      "layout": "grid-panel",
+      "tone": "green",
+      "caption": { "zh": "占代表基本资源的绿色被填充", "en": "The green area represents the base resource." },
+      "chapter": { "eyebrow": "RESOURCE", "title": "THE GREEN AREA", "accent": "green" },
+      "visual": { "type": "grid", "fill": 0.68 },
+      "card": { "type": "bars", "label": "RESOURCE STACK", "values": [24, 48, 72], "accent": "green" }
+    },
+    {
+      "id": "s020-grid-5",
+      "start": 76,
+      "duration": 4,
+      "layout": "grid-panel",
+      "tone": "red",
+      "caption": { "zh": "那红色的才是我这种人", "en": "The red area is where a builder stands out." },
+      "chapter": { "eyebrow": "POSITION", "title": "THE RED AREA", "accent": "red" },
+      "visual": { "type": "grid", "fill": 0.82 },
+      "card": { "type": "stat", "label": "BUILDER POSITION", "value": "0.04%", "accent": "red" }
+    },
+    {
+      "id": "s021-grid-6",
+      "start": 80,
+      "duration": 4,
+      "layout": "grid-panel",
+      "tone": "red",
+      "caption": { "zh": "意愿持续去订阅知识套餐", "en": "The intent is to keep paying for useful knowledge." },
+      "chapter": { "eyebrow": "THE MARKET", "title": "RECURRING VALUE", "accent": "red" },
+      "visual": { "type": "grid", "fill": 0.9 },
+      "card": { "type": "bars", "label": "REPEAT RATE", "values": [36, 62, 90], "accent": "red" }
+    },
+    {
+      "id": "s022-data-center",
+      "start": 84,
+      "duration": 4,
+      "layout": "broll-card",
+      "tone": "blue",
+      "caption": { "zh": "全球七十多亿人，其中只有很少一部分", "en": "Billions of people, but only a small active slice." },
+      "chapter": { "eyebrow": "THE INFRASTRUCTURE", "title": "THE CAPACITY IS LIMITED", "accent": "blue" },
+      "visual": { "type": "broll", "asset": "generated/broll-data-center.png", "motion": "pan-right" },
+      "card": { "type": "stat", "label": "ACTIVE USERS", "value": "0.04%", "accent": "blue" }
+    },
+    {
+      "id": "s023-data-center-2",
+      "start": 88,
+      "duration": 4,
+      "layout": "broll-card",
+      "tone": "cyan",
+      "caption": { "zh": "真正的爆发才会开始", "en": "That is when the real breakout begins." },
+      "chapter": { "eyebrow": "THE BREAKOUT", "title": "WHEN THE GRID TURNS ON", "accent": "cyan" },
+      "visual": { "type": "broll", "asset": "generated/broll-data-center.png", "motion": "push-in" },
+      "card": { "type": "bars", "label": "SYSTEM LOAD", "values": [18, 47, 83], "accent": "cyan" }
+    },
+    {
+      "id": "s024-presenter-return",
+      "start": 92,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "purple",
+      "caption": { "zh": "但是我想告诉你，真正的机会已经开始", "en": "But the opportunity has already started." },
+      "chapter": { "eyebrow": "THE PRACTICAL MOVE", "title": "START NOW", "accent": "purple" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" }
+    },
+    {
+      "id": "s025-presenter-return-2",
+      "start": 96,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "red",
+      "caption": { "zh": "不要等到所有人都知道以后再开始", "en": "Do not wait until everyone knows." },
+      "chapter": { "eyebrow": "THE ADVANTAGE", "title": "EARLY IS A POSITION", "accent": "red" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-left" },
+      "card": { "type": "stat", "label": "POSITION", "value": "01", "accent": "red" }
+    },
+    {
+      "id": "s026-presenter-return-3",
+      "start": 100,
+      "duration": 4,
+      "layout": "presenter-card",
+      "tone": "green",
+      "caption": { "zh": "把 AI 放进你已经理解的专业里", "en": "Put AI inside a craft you already understand." },
+      "chapter": { "eyebrow": "THE LEVER", "title": "CRAFT + AI", "accent": "green" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" },
+      "card": { "type": "bars", "label": "LEVERAGE", "values": [26, 54, 91], "accent": "green" }
+    },
+    {
+      "id": "s027-close",
+      "start": 104,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "blue",
+      "caption": { "zh": "从一条小闭环开始", "en": "Start with one small loop." },
+      "chapter": { "eyebrow": "THE LOOP", "title": "COPY / ASSET / EDIT / PUBLISH", "accent": "blue" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-right" },
+      "card": { "type": "flow", "label": "THE LOOP", "rows": ["COPY", "ASSET", "EDIT", "PUBLISH"], "accent": "blue" }
+    },
+    {
+      "id": "s028-close-2",
+      "start": 108,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "cyan",
+      "caption": { "zh": "优势会在重复里变大", "en": "Repetition compounds the advantage." },
+      "chapter": { "eyebrow": "COMPOUNDING", "title": "REPEAT THE LOOP", "accent": "cyan" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" },
+      "card": { "type": "stat", "label": "REUSE", "value": "10X", "accent": "cyan" }
+    },
+    {
+      "id": "s029-close-3",
+      "start": 112,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "purple",
+      "caption": { "zh": "下一次只替换内容，不重新发明流程", "en": "Replace the content, not the whole process." },
+      "chapter": { "eyebrow": "THE SYSTEM", "title": "KEEP THE ADVANTAGE", "accent": "purple" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "drift-left" },
+      "card": { "type": "flow", "label": "REUSABLE ASSET", "rows": ["SCRIPT", "VOICE", "AVATAR", "STYLE"], "accent": "purple" }
+    },
+    {
+      "id": "s030-end",
+      "start": 116,
+      "duration": 4,
+      "layout": "presenter-wide",
+      "tone": "blue",
+      "caption": { "zh": "你现在就已经在最早的万分之四里", "en": "You can already be among the first four in ten thousand." },
+      "chapter": { "eyebrow": "END CARD", "title": "START BEFORE THE WAVE", "accent": "blue" },
+      "visual": { "type": "presenter", "asset": "generated/presenter-user-avatar.png", "motion": "push-in" },
+      "card": { "type": "stat", "label": "THE FIRST MOVE", "value": "NOW", "accent": "blue" }
+    }
+  ]
+}
+

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "targetDurationSeconds": 120,
+  "sourceVideo": "mp4/shuziren1.mp4",
+  "referenceVideo": "mp4/9e61c373398f12c4179ae3a2ba24060b_raw.mp4",
+  "safeArea": { "left": 72, "right": 72, "top": 96, "bottom": 164 },
+  "scenes": [
+    { "id": "hook-01", "start": 0, "duration": 8, "presenter": { "sourceStart": 1.0, "mode": "loop-safe" }, "caption": { "zh": "AI真正的机会，不在最热闹的演示里", "en": "The real AI opportunity is not the loudest demo" }, "component": { "type": "hook", "label": "THE REAL OPPORTUNITY", "value": "01" } },
+    { "id": "hook-02", "start": 8, "duration": 7, "presenter": { "sourceStart": 7.0, "mode": "cut" }, "caption": { "zh": "而在你能不能站进一个更有价值的位置", "en": "It is the position you can move into" }, "component": { "type": "metric", "label": "POSITION", "value": "01" } },
+    { "id": "problem-01", "start": 15, "duration": 9, "presenter": { "sourceStart": 13.0, "mode": "cut" }, "caption": { "zh": "很多人每天都在用工具，却没有积累优势", "en": "Many people use tools daily without building leverage" }, "component": { "type": "comparison", "label": "USAGE IS NOT LEVERAGE", "value": "02" } },
+    { "id": "problem-02", "start": 24, "duration": 8, "presenter": { "sourceStart": 20.0, "mode": "cut" }, "caption": { "zh": "因为重复操作，只会把时间变得更碎", "en": "Repeated operations only fragment your time" }, "component": { "type": "list", "label": "THE HIDDEN COST", "value": "03" } },
+    { "id": "explain-01", "start": 32, "duration": 9, "presenter": { "sourceStart": 25.0, "mode": "cut" }, "caption": { "zh": "真正的价值来自三件事的叠加", "en": "Value comes from three things working together" }, "component": { "type": "stack", "label": "VALUE STACK", "value": "03" } },
+    { "id": "explain-02", "start": 41, "duration": 8, "presenter": { "sourceStart": 3.0, "mode": "loop-safe" }, "caption": { "zh": "专业判断、工作流设计、可复用资产", "en": "Judgment, workflow design, reusable assets" }, "component": { "type": "stack", "label": "JUDGMENT + SYSTEM + ASSET", "value": "3X" } },
+    { "id": "explain-03", "start": 49, "duration": 9, "presenter": { "sourceStart": 10.0, "mode": "cut" }, "caption": { "zh": "少一个环节，AI就只剩下零散的效率", "en": "Without the system, AI is scattered efficiency" }, "component": { "type": "chart", "label": "SYSTEM EFFECT", "value": "LOW" } },
+    { "id": "method-01", "start": 58, "duration": 8, "presenter": { "sourceStart": 16.0, "mode": "cut" }, "caption": { "zh": "先做一条能跑通的小生产闭环", "en": "Build one small production loop first" }, "component": { "type": "flow", "label": "START SMALL", "value": "01" } },
+    { "id": "method-02", "start": 66, "duration": 9, "presenter": { "sourceStart": 22.0, "mode": "cut" }, "caption": { "zh": "把文案、素材、剪辑和发布都记录下来", "en": "Record copy, assets, edits, and publishing" }, "component": { "type": "flow", "label": "MAKE IT REPEATABLE", "value": "02" } },
+    { "id": "method-03", "start": 75, "duration": 8, "presenter": { "sourceStart": 28.0, "mode": "cut" }, "caption": { "zh": "下一次只替换内容，不重新发明流程", "en": "Replace the content, not the whole process" }, "component": { "type": "metric", "label": "REUSE", "value": "10X" } },
+    { "id": "correction-01", "start": 83, "duration": 9, "presenter": { "sourceStart": 5.0, "mode": "loop-safe" }, "caption": { "zh": "但多写提示词，并不会自动产生杠杆", "en": "More prompts do not automatically create leverage" }, "component": { "type": "warning", "label": "THE MYTH", "value": "NO" } },
+    { "id": "correction-02", "start": 92, "duration": 8, "presenter": { "sourceStart": 12.0, "mode": "cut" }, "caption": { "zh": "没有判断力，生成得越快，偏差也越快", "en": "Without judgment, mistakes scale faster too" }, "component": { "type": "comparison", "label": "SPEED VS DIRECTION", "value": "?" } },
+    { "id": "close-01", "start": 100, "duration": 9, "presenter": { "sourceStart": 18.0, "mode": "cut" }, "caption": { "zh": "把AI放进你已经理解的专业里", "en": "Put AI inside a craft you already understand" }, "component": { "type": "quote", "label": "THE PRACTICAL MOVE", "value": "03" } },
+    { "id": "close-02", "start": 109, "duration": 11, "presenter": { "sourceStart": 30.0, "mode": "cut" }, "caption": { "zh": "从一条小闭环开始，优势会在重复里变大", "en": "Start with one loop and let repetition compound" }, "component": { "type": "close", "label": "BUILD THE LOOP", "value": "NEXT" } }
+  ]
+}

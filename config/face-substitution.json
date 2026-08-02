@@ -1,0 +1,9 @@
+{
+  "sourceVideo": "C:\\kaifa_senlin\\shipin-ai\\mp4\\9e61c373398f12c4179ae3a2ba24060b_raw.mp4",
+  "identityVideo": "C:\\JSYSOFT\\weixin1\\xwechat_files\\wxid_irc74agob6ju22_f059\\msg\\video\\2026-08\\2d7586ef8d3e30a5654ab0fe981bca6b_raw.mp4",
+  "sampleStartSeconds": 30,
+  "sampleDurationSeconds": 15,
+  "expectedWidth": 1280,
+  "expectedHeight": 720,
+  "expectedFps": 60
+}

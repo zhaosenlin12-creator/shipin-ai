@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Audio-Driven Presenter"
+  short_description: "Generate a natural digital presenter from an approved identity and narration."
+  default_prompt: "Use the approved identity reference and Voicebox narration to create a natural audio-driven digital presenter without using raw footage."

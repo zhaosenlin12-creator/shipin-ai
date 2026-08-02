@@ -1,0 +1,24 @@
+{
+  "name": "watermark-free-digital-human-style-engine",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "remotion render src/index.tsx SourceStyleFirst120 output/rendered/source-style-first120.mp4 --concurrency=2",
+    "still": "remotion still src/index.tsx SourceStyleFirst120 output/rendered/source-style-first120-check.jpg --frame=120",
+    "bundle": "remotion bundle src/index.tsx",
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-source-style.ps1"
+  },
+  "dependencies": {
+    "@remotion/media": "4.0.503",
+    "@remotion/cli": "4.0.503",
+    "@remotion/renderer": "4.0.503",
+    "remotion": "4.0.503",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "typescript": "^5.7.0"
+  }
+}

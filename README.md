@@ -1,5 +1,4 @@
 # shipin-ai
-
 Reusable pipeline for producing horizontal Chinese explainers with:
 
 - Voicebox Qwen voice cloning from an approved user-owned reference.

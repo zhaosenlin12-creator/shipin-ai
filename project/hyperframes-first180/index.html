@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<title>Codex 视频 Skill 六类 - v13f</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:#FFFDF8;
+  --ink:#18181C;
+  --mute:#6E665B;
+  --orange:#F4A025;
+  --blue:#5A9FD8;
+  --red:#E64B2F;
+  --green:#74B984;
+  --yellow:#FFD23F;
+}
+html, body { margin:0; padding:0; background:var(--paper);
+  font-family:"Noto Sans SC",sans-serif;
+  color:var(--ink); overflow:hidden; }
+#cartoon { position:relative; width:1920px; height:1080px; background:var(--paper); overflow:hidden; }
+#cartoon::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
+  background-image:radial-gradient(rgba(24,24,28,0.10) 0.8px, transparent 1px),
+    radial-gradient(rgba(24,24,28,0.07) 0.6px, transparent 1px);
+  background-size:60px 60px, 38px 38px; background-position:0 0, 12px 18px;
+  opacity:0.55; mix-blend-mode:multiply; }
+.clip { visibility:hidden; }
+.clip.scene { visibility:visible; }
+.scene { position:absolute; inset:0; z-index:2; opacity:0; pointer-events:none; }
+.scene-inner { position:absolute; inset:0; width:100%; height:100%; }
+.reveal { opacity:0; transform:translateY(20px) scale(0.96); will-change:transform, opacity; }
+
+.avatar-shell { position:absolute; right:28px; bottom:124px; z-index:25;
+  width:168px; height:195px; border-radius:50%; overflow:hidden;
+  box-shadow:0 8px 28px rgba(0,0,0,0.18); background:var(--paper);
+  border:4px solid var(--paper); }
+.avatar-shell video { width:100%; height:100%; object-fit:cover; display:block; }
+.avatar-label { position:absolute; right:60px; bottom:332px; z-index:26;
+  font-family:"Noto Sans SC",sans-serif; font-size:18px; font-weight:900;
+  color:var(--ink); background:var(--yellow); padding:4px 16px; border-radius:6px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.10); letter-spacing:1.5px; }
+
+.subtitle-strip { position:absolute; left:0; right:0; bottom:0; height:96px; z-index:30;
+  background:var(--paper); border-top:1px solid rgba(24,24,28,0.08);
+  display:flex; align-items:center; justify-content:center;
+  font-family:"Noto Sans SC",sans-serif; font-size:38px; font-weight:800;
+  color:var(--ink); letter-spacing:1.5px; padding:0 30px; overflow:hidden; }
+.subtitle-zh { display:block; max-width:1700px; text-align:center; line-height:1.15; }
+.zw { display:inline-block; color:#000000;
+  transition:transform 140ms linear;
+  transform-origin:50% 60%; will-change:color, transform; }
+.zw.active { color:#000000; transform:translateY(-2px) scale(1.06); font-weight:900; }
+.zw.past { color:#000000; }
+.progress-track { position:absolute; top:0; left:0; width:100%; height:4px;
+  background:rgba(0,0,0,0.06); z-index:31; }
+.progress-fill { height:100%; width:0; background:var(--orange); }
+
+.top-label { position:absolute; top:22px; left:36px; z-index:24;
+  font-family:"JetBrains Mono","Noto Sans SC",monospace;
+  font-size:16px; font-weight:700; color:var(--mute); letter-spacing:2px; }
+.brand { position:absolute; top:22px; right:36px; z-index:24;
+  font-family:"JetBrains Mono",monospace; font-size:14px; font-weight:700;
+  color:var(--mute); letter-spacing:1.5px; }
+
+.chapter-wrap { position:absolute; left:60px; top:60px; z-index:4; }
+.chapter-num { display:inline-block; background:var(--orange); color:#fff;
+  font-size:22px; font-weight:900; padding:6px 16px; border-radius:4px;
+  letter-spacing:2px; margin-bottom:14px; }
+.chapter-title { font-size:108px; font-weight:900; color:var(--ink);
+  line-height:1.0; letter-spacing:-1px; }
+.chapter-sub { font-size:30px; font-weight:700; color:var(--mute);
+  letter-spacing:1px; margin-top:12px; }
+
+.sketch-box { font-family:"Noto Sans SC",sans-serif; font-weight:900;
+  color:var(--ink); border-radius:6px; padding:18px 24px; text-align:center; }
+.box-title { font-size:1em; line-height:1.05; font-weight:900; margin-bottom:4px; }
+.box-line { font-size:0.55em; font-weight:700; color:var(--mute); line-height:1.1; }
+
+.skill-pill { display:inline-block; font-family:"Noto Sans SC",sans-serif;
+  font-weight:900; color:var(--ink); border-radius:6px;
+  padding:16px 22px; text-align:center; }
+.pill-title { font-size:1em; line-height:1.0; }
+
+.intro-title { position:absolute; left:80px; top:120px; z-index:4; }
+.intro-line { font-family:"Noto Sans SC",sans-serif; font-size:116px; font-weight:900;
+  line-height:0.95; letter-spacing:-2px; }
+.skills-row { position:absolute; left:80px; right:80px; top:780px;
+  display:flex; gap:18px; justify-content:space-between; z-index:4; }
+.skills-row .skill-pill { flex:1 1 0; }
+
+.flow-stage { position:absolute; inset:0; z-index:3; }
+.flow-layout .chapter-wrap { left:80px; top:50px; }
+
+.videouse-layout .row-of-pills { position:absolute; left:0; right:0; top:600px;
+  display:flex; gap:50px; justify-content:center; z-index:4; }
+
+.generative-layout .grid-2x2 { position:absolute; left:280px; top:280px;
+  display:grid; grid-template-columns:repeat(2,230px); gap:30px; z-index:4; }
+
+.seedance-layout .shots-row { position:absolute; left:0; right:0; top:720px;
+  display:flex; gap:30px; justify-content:center; z-index:4; }
+
+.summary-layout .pair-grid { position:absolute; left:240px; top:380px;
+  display:grid; grid-template-columns:repeat(2,620px); gap:22px; z-index:4; }
+
+.center-tag { position:absolute; left:0; right:0; text-align:center;
+  font-family:"Noto Sans SC",sans-serif; font-size:46px; font-weight:900; z-index:5; }
+</style>
+</head>
+<body>
+<div id="cartoon" data-composition-id="cartoon" data-start="0" data-duration="40.656" data-width="1920" data-height="1080">
+  <div class="top-label">CODEX SKILL GUIDE</div>
+  <div class="brand">小C</div>
+  <div class="clip scene" id="scene-0" data-start="0.000" data-end="5.712" data-duration="5.712" data-stages="3"><div class="scene-inner intro-layout"><div class="reveal intro-title" data-stage="0"><div class="intro-line" style="color:#18181C">不要给 Codex</div><div class="intro-line" style="color:#E64B2F">看到 Skill</div><div class="intro-line" style="color:#18181C">就全装</div></div><div class="reveal sketch-box aside" data-stage="1" style="position:absolute;right:120px;top:160px;width:340px;background:#FFF6E5;border:5px solid #F4A025;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:48px;"><div class="box-title">视频 Skill</div><div class="box-line">不是越多越好</div></div><div class="skills-row"><div class="reveal skill-pill" data-stage="2" style="background:#FFF6E5;border:5px solid #F4A025;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;"><div class="pill-title">文字转视频</div></div><div class="reveal skill-pill" data-stage="2" style="background:#E7F0FA;border:5px solid #5A9FD8;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;"><div class="pill-title">批量出片</div></div><div class="reveal skill-pill" data-stage="2" style="background:#FCE7E4;border:5px solid #E64B2F;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;"><div class="pill-title">处理素材</div></div><div class="reveal skill-pill" data-stage="2" style="background:#E7F3E9;border:5px solid #74B984;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;"><div class="pill-title">生成素材</div></div><div class="reveal skill-pill" data-stage="2" style="background:#FFFDF8;border:5px solid #18181C;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;"><div class="pill-title">写提示词</div></div></div></div></div>
+  <div class="clip scene" id="scene-1" data-start="5.712" data-end="10.992" data-duration="5.280" data-stages="4"><div class="scene-inner flow-layout"><div class="chapter-wrap"><div class="reveal chapter" data-stage="0">  <div class="chapter-num">SKILL 01</div>  <div class="chapter-title">HyperFrames</div>  <div class="chapter-sub">没有素材也能做视频</div></div></div><div class="flow-stage"><div class="reveal sketch-box" data-stage="1" style="position:absolute;left:320px;top:220px;width:340px;height:200px;background:#FFF6E5;border:5px solid #F4A025;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">一段文档</div><div class="box-line">文字 / 观点 / 故事</div></div><div class="reveal sketch-box" data-stage="2" style="position:absolute;left:760px;top:460px;width:340px;height:200px;background:#E7F0FA;border:5px solid #5A9FD8;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">HTML + 动画</div><div class="box-line">逐帧 / 节奏 / 交互</div></div><div class="reveal sketch-box" data-stage="3" style="position:absolute;left:1180px;top:220px;width:340px;height:200px;background:#E7F3E9;border:5px solid #74B984;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">完整视频</div><div class="box-line">可验收可改</div></div><svg class="reveal hand-arrow" data-stage="3" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:660px;top:250px;overflow:visible" width="200" height="130" viewBox="0 0 200 130">  <path d="M 192 8 C 112.00000000000001 15.6, 100.0 101.4, 10 120" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500" class="hand-arrow-path" style="transition:stroke-dashoffset .55s cubic-bezier(.5,0,.2,1)"/>  <path d="M 12 100 L 10 120 L 31 117" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0" class="hand-arrow-head" style="transition:opacity .25s ease-out .45s"/></svg><svg class="reveal hand-arrow" data-stage="3" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:1100px;top:380px;overflow:visible" width="200" height="130" viewBox="0 0 200 130">  <path d="M 8 8 C 88.0 15.6, 100.0 101.4, 190 120" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500" class="hand-arrow-path" style="transition:stroke-dashoffset .55s cubic-bezier(.5,0,.2,1)"/>  <path d="M 169 117 L 190 120 L 188 99" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0" class="hand-arrow-head" style="transition:opacity .25s ease-out .45s"/></svg></div></div></div>
+  <div class="clip scene" id="scene-2" data-start="10.992" data-end="15.600" data-duration="4.608" data-stages="4"><div class="scene-inner flow-layout"><div class="chapter-wrap"><div class="reveal chapter" data-stage="0">  <div class="chapter-num">SKILL 02</div>  <div class="chapter-title">Remotion</div>  <div class="chapter-sub">批量出片</div></div></div><div class="flow-stage"><div class="reveal sketch-box" data-stage="1" style="position:absolute;left:320px;top:220px;width:340px;height:200px;background:#FFF6E5;border:5px solid #F4A025;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">Remotion 模板</div><div class="box-line">固定布局 / 固定节奏</div></div><div class="reveal sketch-box" data-stage="2" style="position:absolute;left:760px;top:460px;width:340px;height:200px;background:#E7F0FA;border:5px solid #5A9FD8;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">数据</div><div class="box-line">排行 / 榜单 / 栏目</div></div><div class="reveal sketch-box" data-stage="3" style="position:absolute;left:1180px;top:220px;width:340px;height:200px;background:#E7F3E9;border:5px solid #74B984;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">完整视频</div><div class="box-line">批量生成 / 稳定复用</div></div><svg class="reveal hand-arrow" data-stage="3" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:660px;top:250px;overflow:visible" width="200" height="130" viewBox="0 0 200 130">  <path d="M 192 8 C 112.00000000000001 15.6, 100.0 101.4, 10 120" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500" class="hand-arrow-path" style="transition:stroke-dashoffset .55s cubic-bezier(.5,0,.2,1)"/>  <path d="M 12 100 L 10 120 L 31 117" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0" class="hand-arrow-head" style="transition:opacity .25s ease-out .45s"/></svg><svg class="reveal hand-arrow" data-stage="3" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:1100px;top:380px;overflow:visible" width="200" height="130" viewBox="0 0 200 130">  <path d="M 8 8 C 88.0 15.6, 100.0 101.4, 190 120" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500" class="hand-arrow-path" style="transition:stroke-dashoffset .55s cubic-bezier(.5,0,.2,1)"/>  <path d="M 169 117 L 190 120 L 188 99" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0" class="hand-arrow-head" style="transition:opacity .25s ease-out .45s"/></svg></div></div></div>
+  <div class="clip scene" id="scene-3" data-start="15.600" data-end="20.664" data-duration="5.064" data-stages="4"><div class="scene-inner flow-layout"><div class="chapter-wrap"><div class="reveal chapter" data-stage="0">  <div class="chapter-num">SKILL 03</div>  <div class="chapter-title">Videocutskill</div>  <div class="chapter-sub">处理中文口播</div></div></div><div class="flow-stage"><div class="reveal sketch-box" data-stage="1" style="position:absolute;left:320px;top:220px;width:340px;height:200px;background:#FCE7E4;border:5px solid #E64B2F;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">中文口播</div><div class="box-line">真人 / 已有视频</div></div><div class="reveal sketch-box" data-stage="2" style="position:absolute;left:760px;top:460px;width:340px;height:200px;background:#E7F0FA;border:5px solid #5A9FD8;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">剪辑处理</div><div class="box-line">删口误 / 去停顿</div></div><div class="reveal sketch-box" data-stage="3" style="position:absolute;left:1180px;top:220px;width:340px;height:200px;background:#E7F3E9;border:5px solid #74B984;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:38px;padding:24px;"><div class="box-title">字幕</div><div class="box-line">自动整理 / 美观</div></div><svg class="reveal hand-arrow" data-stage="3" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:660px;top:250px;overflow:visible" width="200" height="130" viewBox="0 0 200 130">  <path d="M 192 8 C 112.00000000000001 15.6, 100.0 101.4, 10 120" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500" class="hand-arrow-path" style="transition:stroke-dashoffset .55s cubic-bezier(.5,0,.2,1)"/>  <path d="M 12 100 L 10 120 L 31 117" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0" class="hand-arrow-head" style="transition:opacity .25s ease-out .45s"/></svg><svg class="reveal hand-arrow" data-stage="3" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:1100px;top:380px;overflow:visible" width="200" height="130" viewBox="0 0 200 130">  <path d="M 8 8 C 88.0 15.6, 100.0 101.4, 190 120" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500" class="hand-arrow-path" style="transition:stroke-dashoffset .55s cubic-bezier(.5,0,.2,1)"/>  <path d="M 169 117 L 190 120 L 188 99" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0" class="hand-arrow-head" style="transition:opacity .25s ease-out .45s"/></svg></div></div></div>
+  <div class="clip scene" id="scene-4" data-start="20.664" data-end="25.080" data-duration="4.416" data-stages="5"><div class="scene-inner videouse-layout"><div class="chapter-wrap"><div class="reveal chapter" data-stage="0">  <div class="chapter-num">SKILL 04</div>  <div class="chapter-title">Video Use</div>  <div class="chapter-sub">处理已有视频素材</div></div></div><div class="reveal sketch-box" data-stage="1" style="position:absolute;left:540px;top:220px;width:840px;height:180px;background:#FFF6E5;border:5px solid #F4A025;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:48px;padding:24px;"><div class="box-title">视频素材</div><div class="box-line">口播 / 旅行 / Vlog</div></div><div class="row-of-pills"><div class="reveal skill-pill" data-stage="2" style="background:#FCE7E4;border:5px solid #E64B2F;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:38px;padding:18px 24px;min-width:140px;text-align:center;"><div class="pill-title">剪辑</div></div><div class="reveal skill-pill" data-stage="2" style="background:#FFF6E5;border:5px solid #F4A025;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:38px;padding:18px 24px;min-width:140px;text-align:center;"><div class="pill-title">调色</div></div><div class="reveal skill-pill" data-stage="2" style="background:#E7F0FA;border:5px solid #5A9FD8;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:38px;padding:18px 24px;min-width:140px;text-align:center;"><div class="pill-title">字幕</div></div><div class="reveal skill-pill" data-stage="2" style="background:#E7F3E9;border:5px solid #74B984;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:38px;padding:18px 24px;min-width:140px;text-align:center;"><div class="pill-title">图表</div></div></div><div class="reveal center-tag" data-stage="3" style="color:#74B984;top:780px;">一条工作流就够</div></div></div>
+  <div class="clip scene" id="scene-5" data-start="25.080" data-end="30.384" data-duration="5.304" data-stages="5"><div class="scene-inner generative-layout"><div class="chapter-wrap"><div class="reveal chapter" data-stage="0">  <div class="chapter-num">SKILL 05</div>  <div class="chapter-title">Generative Media</div>  <div class="chapter-sub">AI 素材工具集</div></div></div><div class="grid-2x2"><div class="reveal sketch-box" data-stage="1" style="background:#FFF6E5;border:5px solid #F4A025;box-shadow:6px 7px 0 rgba(32,33,39,.13);width:230px;height:170px;font-size:42px;padding:18px;text-align:center;"><div class="box-title">图片</div></div><div class="reveal sketch-box" data-stage="1" style="background:#E7F0FA;border:5px solid #5A9FD8;box-shadow:6px 7px 0 rgba(32,33,39,.13);width:230px;height:170px;font-size:42px;padding:18px;text-align:center;"><div class="box-title">视频</div></div><div class="reveal sketch-box" data-stage="1" style="background:#FCE7E4;border:5px solid #E64B2F;box-shadow:6px 7px 0 rgba(32,33,39,.13);width:230px;height:170px;font-size:42px;padding:18px;text-align:center;"><div class="box-title">音乐</div></div><div class="reveal sketch-box" data-stage="1" style="background:#E7F3E9;border:5px solid #74B984;box-shadow:6px 7px 0 rgba(32,33,39,.13);width:230px;height:170px;font-size:42px;padding:18px;text-align:center;"><div class="box-title">音效</div></div></div><div class="reveal sketch-box" data-stage="2" style="position:absolute;left:1170px;top:280px;width:430px;height:280px;background:#FCE7E4;border:5px solid #E64B2F;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:48px;padding:24px;text-align:center;"><div class="box-title">API</div><div class="box-line">配置成本 / 调用费用</div></div><div class="reveal center-tag" data-stage="3" style="color:#E64B2F;top:760px;">先确认预算再决定</div></div></div>
+  <div class="clip scene" id="scene-6" data-start="30.384" data-end="35.424" data-duration="5.040" data-stages="5"><div class="scene-inner seedance-layout"><div class="chapter-wrap"><div class="reveal chapter" data-stage="0">  <div class="chapter-num">SKILL 06</div>  <div class="chapter-title">Seedance2skill</div>  <div class="chapter-sub">专门写视频提示词</div></div></div><div class="flow-stage"><div class="reveal sketch-box" data-stage="1" style="position:absolute;left:340px;top:300px;width:380px;height:200px;background:#FFF6E5;border:5px solid #F4A025;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:44px;padding:22px;text-align:center;"><div class="box-title">Prompt</div><div class="box-line">镜头 / 动作 / 节奏</div></div><div class="reveal sketch-box" data-stage="2" style="position:absolute;left:1180px;top:300px;width:380px;height:200px;background:#E7F0FA;border:5px solid #5A9FD8;box-shadow:6px 7px 0 rgba(32,33,39,.13);font-size:44px;padding:22px;text-align:center;"><div class="box-title">Seedance</div><div class="box-line">直接调用</div></div><svg class="reveal hand-arrow" data-stage="3" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:740px;top:350px;overflow:visible" width="320" height="130" viewBox="0 0 320 130">  <path d="M 8 8 C 140.8 15.6, 160.0 101.4, 310 120" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500" class="hand-arrow-path" style="transition:stroke-dashoffset .55s cubic-bezier(.5,0,.2,1)"/>  <path d="M 289 117 L 310 120 L 308 99" fill="none" stroke="#F4A025" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0" class="hand-arrow-head" style="transition:opacity .25s ease-out .45s"/></svg></div><div class="shots-row"><div class="reveal skill-pill" data-stage="3" style="background:#FFFDF8;border:5px solid #18181C;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;padding:14px 24px;width:200px;text-align:center;"><div class="pill-title">镜头 1</div></div><div class="reveal skill-pill" data-stage="3" style="background:#FFFDF8;border:5px solid #18181C;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;padding:14px 24px;width:200px;text-align:center;"><div class="pill-title">镜头 2</div></div><div class="reveal skill-pill" data-stage="3" style="background:#FFFDF8;border:5px solid #18181C;box-shadow:5px 6px 0 rgba(32,33,39,.13);font-size:30px;padding:14px 24px;width:200px;text-align:center;"><div class="pill-title">镜头 3</div></div></div><div class="reveal center-tag" data-stage="4" style="color:#74B984;top:820px;">越具体，越好控制</div></div></div>
+  <div class="clip scene" id="scene-7" data-start="35.424" data-end="40.656" data-duration="5.232" data-stages="4"><div class="scene-inner summary-layout"><div class="reveal intro-title" data-stage="0" style="top:90px"><div class="intro-line" style="color:#18181C;font-size:88px">根据场景</div><div class="intro-line" style="color:#F4A025;font-size:88px">选择 Skill</div></div><div class="pair-grid"><div class="reveal pair" data-stage="1" style="background:#FFFDF8;border:5px solid #F4A025;box-shadow:5px 6px 0 rgba(32,33,39,.13);width:620px;height:84px;font-size:28px;padding:6px 18px;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;color:#18181C">文字转视频</span><span style="color:#F4A025;font-weight:900;font-size:36px">→</span><span style="font-weight:900;color:#F4A025">HyperFrames</span></div><div class="reveal pair" data-stage="1" style="background:#FFFDF8;border:5px solid #5A9FD8;box-shadow:5px 6px 0 rgba(32,33,39,.13);width:620px;height:84px;font-size:28px;padding:6px 18px;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;color:#18181C">批量出片</span><span style="color:#5A9FD8;font-weight:900;font-size:36px">→</span><span style="font-weight:900;color:#5A9FD8">Remotion</span></div><div class="reveal pair" data-stage="1" style="background:#FFFDF8;border:5px solid #E64B2F;box-shadow:5px 6px 0 rgba(32,33,39,.13);width:620px;height:84px;font-size:28px;padding:6px 18px;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;color:#18181C">已有口播</span><span style="color:#E64B2F;font-weight:900;font-size:36px">→</span><span style="font-weight:900;color:#E64B2F">Videocutskill</span></div><div class="reveal pair" data-stage="1" style="background:#FFFDF8;border:5px solid #18181C;box-shadow:5px 6px 0 rgba(32,33,39,.13);width:620px;height:84px;font-size:28px;padding:6px 18px;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;color:#18181C">视频素材</span><span style="color:#18181C;font-weight:900;font-size:36px">→</span><span style="font-weight:900;color:#18181C">Video Use</span></div><div class="reveal pair" data-stage="1" style="background:#FFFDF8;border:5px solid #74B984;box-shadow:5px 6px 0 rgba(32,33,39,.13);width:620px;height:84px;font-size:28px;padding:6px 18px;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;color:#18181C">生成素材</span><span style="color:#74B984;font-weight:900;font-size:36px">→</span><span style="font-weight:900;color:#74B984">Generative Media</span></div><div class="reveal pair" data-stage="1" style="background:#FFFDF8;border:5px solid #F4A025;box-shadow:5px 6px 0 rgba(32,33,39,.13);width:620px;height:84px;font-size:28px;padding:6px 18px;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;color:#18181C">写提示词</span><span style="color:#F4A025;font-weight:900;font-size:36px">→</span><span style="font-weight:900;color:#F4A025">Seedance2skill</span></div></div><div class="reveal center-tag" data-stage="2" style="color:#74B984;top:780px;">工具少一点，工作流更顺</div></div></div>
+
+  <div class="avatar-label">小C</div>
+  <div class="avatar-shell">
+    <video id="avatar-a" class="clip media" data-start="0" data-duration="40.656" data-track-index="0"
+           src="assets/avatar-head.mp4" muted playsinline></video>
+  </div>
+  <div class="subtitle-strip">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="subtitle-zh" id="zh-text"></div>
+  </div>
+</div>
+<script>
+const SCENES = [{"idx": 0, "zh": "不要给 Codex 看到 Skill 就全装,视频 Skill 也不是越多越好,今天把六类讲清楚", "start": 0.0, "end": 5.712, "duration": 5.712}, {"idx": 1, "zh": "第一个,HyperFrames,没有素材也能做视频,文字直接交给 Codex", "start": 5.712, "end": 10.992, "duration": 5.28}, {"idx": 2, "zh": "第二个,Remotion,批量出片,一个模板接数据,稳定复用", "start": 10.992, "end": 15.6, "duration": 4.608}, {"idx": 3, "zh": "第三个,Videocutskill,处理中文口播,自动删口误,自动加字幕", "start": 15.6, "end": 20.664, "duration": 5.064}, {"idx": 4, "zh": "第四个,Video Use,处理已有视频,剪辑调色加图表", "start": 20.664, "end": 25.08, "duration": 4.416}, {"idx": 5, "zh": "第五个,Generative Media,生成图片视频音乐音效,注意 API 成本", "start": 25.08, "end": 30.384, "duration": 5.304}, {"idx": 6, "zh": "第六个,Seedance2skill,专门写视频提示词,镜头动作节奏越具体越好", "start": 30.384, "end": 35.424, "duration": 5.04}, {"idx": 7, "zh": "根据场景选 Skill,工具少一点工作流更顺", "start": 35.424, "end": 40.656, "duration": 5.232}];
+const DURATION = SCENES[SCENES.length - 1].end;
+const tl = gsap.timeline({ paused: true });
+const sceneEls = SCENES.map(s => document.getElementById("scene-" + s.idx));
+const elZh = document.getElementById("zh-text");
+const elProgress = document.getElementById("progress-fill");
+
+elZh.innerHTML = [...SCENES[0].zh].map((c,i) =>
+  '<span class="zw" data-i="' + i + '">' + c + '</span>').join("");
+
+gsap.set(sceneEls[0], { opacity: 1 });
+gsap.set(sceneEls.slice(1), { opacity: 0 });
+
+SCENES.forEach(s => {
+  const scn = document.getElementById("scene-" + s.idx);
+  gsap.set(scn.querySelectorAll(".reveal"), { opacity: 0, y: 22, scale: 0.96 });
+  scn.querySelectorAll(".hand-arrow-path").forEach(p => p.style.strokeDashoffset = "500");
+  scn.querySelectorAll(".hand-arrow-head").forEach(h => h.style.opacity = "0");
+});
+
+const stageTimes = [0.05, 0.85, 1.65, 2.45, 3.25];
+
+SCENES.forEach((s, idx) => {
+  const scn = sceneEls[idx];
+  const reveals = Array.from(scn.querySelectorAll(".reveal"));
+
+  if (idx > 0) {
+    tl.call(() => { sceneEls[idx-1].style.opacity = "0"; sceneEls[idx].style.opacity = "1"; }, [], s.start);
+    tl.call(() => {
+      gsap.set(reveals, { opacity: 0, y: 22, scale: 0.96 });
+      scn.querySelectorAll(".hand-arrow-path").forEach(p => p.style.strokeDashoffset = "500");
+      scn.querySelectorAll(".hand-arrow-head").forEach(h => h.style.opacity = "0");
+    }, [], s.start);
+  }
+
+  const stages = {};
+  reveals.forEach(r => {
+    const st = parseInt(r.dataset.stage || "0", 10);
+    (stages[st] = stages[st] || []).push(r);
+  });
+
+  Object.keys(stages).forEach(st => {
+    const ti = Math.min(parseInt(st, 10), stageTimes.length - 1);
+    const offset = s.start + stageTimes[ti];
+    stages[st].forEach((node, i) => {
+      const isSvg = node.classList.contains("hand-arrow");
+      if (isSvg) {
+        tl.fromTo(node, { opacity: 0, scale: 0.92 },
+          { opacity: 1, scale: 1, duration: 0.42, ease: "power2.out" }, offset);
+        tl.call(() => {
+          const p = node.querySelector(".hand-arrow-path");
+          const h = node.querySelector(".hand-arrow-head");
+          if (p) p.style.strokeDashoffset = "0";
+          if (h) setTimeout(() => { h.style.opacity = "1"; }, 460);
+        }, [], offset + 0.05);
+      } else {
+        tl.fromTo(node,
+          { opacity: 0, y: 22, scale: 0.94 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.50, ease: "back.out(1.1)" },
+          offset + i * 0.08);
+      }
+    });
+  });
+
+  const chars = [...s.zh];
+  const n = chars.length;
+  const slice = (s.end - s.start) / n;
+  const nextStart = (idx + 1 < SCENES.length) ? SCENES[idx + 1].start : DURATION;
+  tl.call(() => {
+    gsap.set(elZh, { opacity: 1 });
+    elZh.innerHTML = chars.map((c, i) =>
+      '<span class="zw" data-i="' + i + '">' + c + '</span>').join("");
+  }, [], s.start);
+
+  for (let i = 0; i < n; i++) {
+    const onAt  = s.start + i * slice + slice * 0.10;
+    const offAt = s.start + (i + 1) * slice - slice * 0.10;
+    tl.call(() => {
+      const sp = elZh.querySelector('.zw[data-i="' + i + '"]');
+      if (sp) sp.classList.add("active");
+    }, [], Math.max(0, onAt));
+    tl.call(() => {
+      const sp = elZh.querySelector('.zw[data-i="' + i + '"]');
+      if (sp) { sp.classList.remove("active"); sp.classList.add("past"); }
+    }, [], Math.max(0, offAt));
+  }
+});
+
+tl.to(elProgress, { width: "100%", duration: DURATION, ease: "none" }, 0);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["cartoon"] = tl;
+</script>
+</body>
+</html>

@@ -6,6 +6,24 @@ Reusable pipeline for producing horizontal Chinese explainers with:
 - Ditto audio-driven presenter generation for head motion, eyes, expression, and lip sync.
 - HyperFrames composition, captions, cards, B-roll, and final H.264/AAC delivery.
 
+## Current Delivery
+
+- Approved baseline video: `cartoon90-skill-v13natural-polished-delivery.mp4`
+- Douyin content replica: `douyin-codex-novel-skill-replica.mp4`
+- Main workflow tutorial: [docs/AUTOMATED-DIGITAL-HUMAN-VIDEO-WORKFLOW.md](docs/AUTOMATED-DIGITAL-HUMAN-VIDEO-WORKFLOW.md)
+- Douyin replica tutorial: [docs/DOUYIN-CODEX-NOVEL-REPLICA.md](docs/DOUYIN-CODEX-NOVEL-REPLICA.md)
+- Rhythm rules: [docs/DIGITAL-HUMAN-RHYTHM.md](docs/DIGITAL-HUMAN-RHYTHM.md)
+
+```powershell
+# Recreate the Douyin replica from its distilled script.
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\render-douyin-codex-novel.ps1
+
+# Rebuild the approved baseline from local final assets.
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\render-v13-polished-delivery.ps1
+```
+
+Generated private assets live under `local/` and are intentionally ignored. Keep only final delivery videos in the repository root.
+
 ## Continue On Another Computer
 
 1. Clone this repository.
@@ -42,8 +60,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run-ditto-avatar.ps1
   -AudioPath project\public\narration.wav `
   -SourceImage project\public\generated\presenter-user-avatar-neutral.png `
   -OutputVideo project\public\generated\presenter-ditto.mp4
+
+# Repair an existing Ditto render whose presenter motion is slower than the narration.
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-ditto-duration.ps1 `
+  -InputVideo project\hyperframes-first180\assets\avatar-ditto-full.mp4 `
+  -ReferenceAudio project\hyperframes-first180\assets\narration.wav `
+  -OutputVideo project\hyperframes-first180\assets\avatar-ditto-full-synced.mp4
 ```
+
+`run-ditto-avatar.ps1` now duration-locks the raw Ditto output to the mastered narration by default. See [docs/DIGITAL-HUMAN-RHYTHM.md](docs/DIGITAL-HUMAN-RHYTHM.md) for the production rhythm rules.
 
 ## Privacy Boundary
 
-Do not commit raw avatar videos, source-platform videos, voice-reference WAVs, personal identity images, model caches, API keys, or generated private videos. The repository contains the production logic and handoff, not the user's biometric source material.
+Do not commit raw avatar videos, source-platform videos, voice-reference WAVs, personal identity images, model caches, API keys, or generated private intermediate videos. Only final delivery videos explicitly approved for handoff should be committed. The repository contains the production logic and handoff, not the user's biometric source material.

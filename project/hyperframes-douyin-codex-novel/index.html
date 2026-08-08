@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<title>Codex 写小说 6 个 Skill 复刻</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fffdf8;
+  --ink: #18181c;
+  --mute: #6e665b;
+  --orange: #f4a025;
+  --blue: #5a9fd8;
+  --red: #e64b2f;
+  --green: #74b984;
+  --yellow: #ffd23f;
+  --lilac: #8d7bd8;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Noto Sans SC", "Inter", sans-serif;
+  overflow: hidden;
+}
+#cartoon {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--paper);
+}
+#cartoon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(24,24,28,.10) .8px, transparent 1px),
+    radial-gradient(rgba(24,24,28,.07) .6px, transparent 1px);
+  background-position: 0 0, 12px 18px;
+  background-size: 60px 60px, 38px 38px;
+  opacity: .55;
+  mix-blend-mode: multiply;
+}
+.clip { visibility: hidden; }
+.clip.scene { visibility: visible; }
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+.scene-inner {
+  position: absolute;
+  inset: 0;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(22px) scale(.96);
+  will-change: opacity, transform;
+}
+.top-label {
+  position: absolute;
+  top: 22px;
+  left: 36px;
+  z-index: 24;
+  color: var(--mute);
+  font-family: "Inter", "Noto Sans SC", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.brand {
+  position: absolute;
+  top: 22px;
+  right: 36px;
+  z-index: 24;
+  color: var(--mute);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+.chapter-wrap {
+  position: absolute;
+  left: 80px;
+  top: 56px;
+  z-index: 4;
+}
+.chapter-num {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  background: var(--orange);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+.chapter-title {
+  color: var(--ink);
+  font-size: 104px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.chapter-title.small {
+  font-size: 82px;
+}
+.chapter-sub {
+  margin-top: 12px;
+  color: var(--mute);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.intro-title {
+  position: absolute;
+  left: 80px;
+  top: 120px;
+  z-index: 4;
+}
+.intro-line {
+  font-size: 112px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.badge-row {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 770px;
+  z-index: 4;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+.skill-pill {
+  flex: 1 1 0;
+  padding: 16px 22px;
+  border-radius: 6px;
+  color: var(--ink);
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+  box-shadow: 5px 6px 0 rgba(32,33,39,.13);
+}
+.sketch-box {
+  position: absolute;
+  z-index: 4;
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 24px;
+  color: var(--ink);
+  text-align: center;
+  font-weight: 900;
+  box-shadow: 6px 7px 0 rgba(32,33,39,.13);
+}
+.box-title {
+  font-size: 1em;
+  font-weight: 900;
+  line-height: 1.05;
+}
+.box-line {
+  margin-top: 8px;
+  color: var(--mute);
+  font-size: .54em;
+  font-weight: 800;
+  line-height: 1.18;
+}
+.card-orange { background: #fff6e5; border: 5px solid var(--orange); }
+.card-blue { background: #e7f0fa; border: 5px solid var(--blue); }
+.card-red { background: #fce7e4; border: 5px solid var(--red); }
+.card-green { background: #e7f3e9; border: 5px solid var(--green); }
+.card-lilac { background: #f1edff; border: 5px solid var(--lilac); }
+.arrow {
+  position: absolute;
+  z-index: 5;
+  overflow: visible;
+}
+.arrow path {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.list-stack {
+  position: absolute;
+  left: 260px;
+  top: 300px;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: repeat(2, 560px);
+  gap: 22px;
+}
+.summary-item {
+  height: 82px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: 5px 6px 0 rgba(32,33,39,.13);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28px;
+  font-weight: 900;
+}
+.summary-item span:first-child {
+  color: var(--ink);
+  font-weight: 800;
+}
+.summary-item b {
+  color: var(--orange);
+}
+.center-tag {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 800px;
+  z-index: 5;
+  color: var(--green);
+  text-align: center;
+  font-size: 46px;
+  font-weight: 900;
+}
+.avatar-shell {
+  position: absolute;
+  right: 28px;
+  bottom: 124px;
+  z-index: 25;
+  width: 168px;
+  height: 195px;
+  overflow: hidden;
+  border: 4px solid var(--paper);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 8px 28px rgba(0,0,0,.18);
+}
+.avatar-shell video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-label {
+  position: absolute;
+  right: 60px;
+  bottom: 332px;
+  z-index: 26;
+  padding: 4px 16px;
+  border-radius: 6px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.10);
+}
+.subtitle-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  height: 96px;
+  overflow: hidden;
+  border-top: 1px solid rgba(24,24,28,.08);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 36px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+.subtitle-zh {
+  max-width: 1660px;
+  text-align: center;
+  line-height: 1.15;
+}
+.zw {
+  display: inline-block;
+  color: #000;
+  transform-origin: 50% 60%;
+  transition: transform 140ms linear;
+  will-change: transform;
+}
+.zw.active {
+  color: #000;
+  transform: translateY(-2px) scale(1.06);
+  font-weight: 900;
+}
+.zw.past { color: #000; }
+.progress-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 31;
+  width: 100%;
+  height: 4px;
+  background: rgba(0,0,0,.06);
+}
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background: var(--orange);
+}
+</style>
+</head>
+<body>
+<div id="cartoon" data-composition-id="cartoon" data-start="0" data-duration="40.656" data-width="1920" data-height="1080">
+  <div class="top-label">REFERENCE REPLICA</div>
+  <div class="brand">小C</div>
+
+  <div class="clip scene" id="scene-0" data-start="0" data-duration="5.712" data-end="5.712">
+    <div class="scene-inner">
+      <div class="reveal intro-title" data-stage="0">
+        <div class="intro-line">用 Codex</div>
+        <div class="intro-line" style="color:var(--red)">写小说</div>
+        <div class="intro-line">6 个 Skill</div>
+      </div>
+      <div class="reveal sketch-box card-orange" data-stage="1" style="right:140px;top:170px;width:420px;font-size:46px">
+        <div class="box-title">原视频内容复刻</div>
+        <div class="box-line">章节要点 / 技能分工 / 新手能懂</div>
+      </div>
+      <div class="badge-row">
+        <div class="reveal skill-pill card-orange" data-stage="2">选题拆书</div>
+        <div class="reveal skill-pill card-blue" data-stage="2">搭大纲</div>
+        <div class="reveal skill-pill card-red" data-stage="2">写正文</div>
+        <div class="reveal skill-pill card-green" data-stage="2">防崩盘</div>
+        <div class="reveal skill-pill card-lilac" data-stage="2">去 AI 味</div>
+        <div class="reveal skill-pill card-orange" data-stage="2">新手开书</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clip scene" id="scene-1" data-start="5.712" data-duration="5.28" data-end="10.992">
+    <div class="scene-inner">
+      <div class="chapter-wrap reveal" data-stage="0">
+        <div class="chapter-num">SKILL 01</div>
+        <div class="chapter-title">oh-story</div>
+        <div class="chapter-sub">选题拆书，先找到可写的方向</div>
+      </div>
+      <div class="reveal sketch-box card-orange" data-stage="1" style="left:300px;top:300px;width:360px;height:190px;font-size:40px">
+        <div class="box-title">扫描热榜</div>
+        <div class="box-line">题材 / 爆点 / 读者偏好</div>
+      </div>
+      <div class="reveal sketch-box card-blue" data-stage="2" style="left:780px;top:500px;width:360px;height:190px;font-size:40px">
+        <div class="box-title">拆成模块</div>
+        <div class="box-line">设定 / 冲突 / 爽点</div>
+      </div>
+      <div class="reveal sketch-box card-green" data-stage="3" style="left:1260px;top:300px;width:360px;height:190px;font-size:40px">
+        <div class="box-title">沉淀库</div>
+        <div class="box-line">下次直接复用</div>
+      </div>
+      <svg class="reveal arrow" data-stage="3" style="left:660px;top:340px" width="180" height="130" viewBox="0 0 180 130"><path d="M170 10 C110 20 80 95 10 115"></path><path d="M13 94 L10 115 L31 111"></path></svg>
+      <svg class="reveal arrow" data-stage="3" style="left:1140px;top:430px" width="180" height="130" viewBox="0 0 180 130"><path d="M10 10 C70 25 100 95 170 115"></path><path d="M149 110 L170 115 L165 94"></path></svg>
+    </div>
+  </div>
+
+  <div class="clip scene" id="scene-2" data-start="10.992" data-duration="4.608" data-end="15.6">
+    <div class="scene-inner">
+      <div class="chapter-wrap reveal" data-stage="0">
+        <div class="chapter-num">SKILL 02</div>
+        <div class="chapter-title">Sumeru</div>
+        <div class="chapter-sub">搭大纲，把小说变成工程</div>
+      </div>
+      <div class="reveal sketch-box card-blue" data-stage="1" style="left:250px;top:315px;width:420px;height:210px;font-size:42px">
+        <div class="box-title">7 个模块</div>
+        <div class="box-line">世界观 / 人设 / 主线</div>
+      </div>
+      <div class="reveal sketch-box card-orange" data-stage="2" style="left:750px;top:460px;width:420px;height:210px;font-size:42px">
+        <div class="box-title">结构先行</div>
+        <div class="box-line">每章目标先写清</div>
+      </div>
+      <div class="reveal sketch-box card-green" data-stage="3" style="left:1250px;top:315px;width:420px;height:210px;font-size:42px">
+        <div class="box-title">后续少返工</div>
+        <div class="box-line">写作稳定推进</div>
+      </div>
+      <div class="reveal center-tag" data-stage="3">先搭骨架，再填血肉</div>
+    </div>
+  </div>
+
+  <div class="clip scene" id="scene-3" data-start="15.6" data-duration="5.064" data-end="20.664">
+    <div class="scene-inner">
+      <div class="chapter-wrap reveal" data-stage="0">
+        <div class="chapter-num">SKILL 03</div>
+        <div class="chapter-title small">Webnovel Writer</div>
+        <div class="chapter-sub">写正文防吃书，记住上下文</div>
+      </div>
+      <div class="reveal sketch-box card-red" data-stage="1" style="left:260px;top:320px;width:390px;height:210px;font-size:42px">
+        <div class="box-title">RAG 记忆库</div>
+        <div class="box-line">人物 / 设定 / 伏笔</div>
+      </div>
+      <div class="reveal sketch-box card-blue" data-stage="2" style="left:760px;top:500px;width:390px;height:210px;font-size:42px">
+        <div class="box-title">自动检索</div>
+        <div class="box-line">写前先找旧信息</div>
+      </div>
+      <div class="reveal sketch-box card-green" data-stage="3" style="left:1260px;top:320px;width:390px;height:210px;font-size:42px">
+        <div class="box-title">校验修复</div>
+        <div class="box-line">少断设定少穿帮</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clip scene" id="scene-4" data-start="20.664" data-duration="4.416" data-end="25.08">
+    <div class="scene-inner">
+      <div class="chapter-wrap reveal" data-stage="0">
+        <div class="chapter-num">SKILL 04</div>
+        <div class="chapter-title">InkOS</div>
+        <div class="chapter-sub">多 Agent 协作，防止越写越崩</div>
+      </div>
+      <div class="reveal sketch-box card-orange" data-stage="1" style="left:230px;top:340px;width:300px;height:170px;font-size:38px"><div class="box-title">设定 Agent</div></div>
+      <div class="reveal sketch-box card-blue" data-stage="1" style="left:610px;top:520px;width:300px;height:170px;font-size:38px"><div class="box-title">正文 Agent</div></div>
+      <div class="reveal sketch-box card-red" data-stage="2" style="left:990px;top:340px;width:300px;height:170px;font-size:38px"><div class="box-title">审稿 Agent</div></div>
+      <div class="reveal sketch-box card-green" data-stage="2" style="left:1370px;top:520px;width:300px;height:170px;font-size:38px"><div class="box-title">修复 Agent</div></div>
+      <div class="reveal center-tag" data-stage="3" style="color:var(--red)">写作不是单线程硬冲</div>
+    </div>
+  </div>
+
+  <div class="clip scene" id="scene-5" data-start="25.08" data-duration="5.304" data-end="30.384">
+    <div class="scene-inner">
+      <div class="chapter-wrap reveal" data-stage="0">
+        <div class="chapter-num">SKILL 05</div>
+        <div class="chapter-title small">Humanizer zh</div>
+        <div class="chapter-sub">去 AI 味，把机器感逐条替换</div>
+      </div>
+      <div class="reveal sketch-box card-lilac" data-stage="1" style="left:280px;top:320px;width:420px;height:220px;font-size:44px">
+        <div class="box-title">24 种痕迹</div>
+        <div class="box-line">套话 / 空泛 / 机械转折</div>
+      </div>
+      <div class="reveal sketch-box card-red" data-stage="2" style="left:760px;top:500px;width:420px;height:220px;font-size:44px">
+        <div class="box-title">点对点改写</div>
+        <div class="box-line">哪里像 AI 就改哪里</div>
+      </div>
+      <div class="reveal sketch-box card-green" data-stage="3" style="left:1240px;top:320px;width:420px;height:220px;font-size:44px">
+        <div class="box-title">保留风格</div>
+        <div class="box-line">像作者，不像模板</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clip scene" id="scene-6" data-start="30.384" data-duration="5.04" data-end="35.424">
+    <div class="scene-inner">
+      <div class="chapter-wrap reveal" data-stage="0">
+        <div class="chapter-num">SKILL 06</div>
+        <div class="chapter-title">新手开书</div>
+        <div class="chapter-sub">零门槛启动，不再卡在第一页</div>
+      </div>
+      <div class="reveal sketch-box card-orange" data-stage="1" style="left:300px;top:330px;width:360px;height:200px;font-size:42px">
+        <div class="box-title">自动章节</div>
+        <div class="box-line">先有可改的初稿</div>
+      </div>
+      <div class="reveal sketch-box card-blue" data-stage="2" style="left:780px;top:500px;width:360px;height:200px;font-size:42px">
+        <div class="box-title">检查重写</div>
+        <div class="box-line">发现问题就修</div>
+      </div>
+      <div class="reveal sketch-box card-green" data-stage="3" style="left:1260px;top:330px;width:360px;height:200px;font-size:42px">
+        <div class="box-title">偏好记忆</div>
+        <div class="box-line">越写越懂你</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clip scene" id="scene-7" data-start="35.424" data-duration="5.232" data-end="40.656">
+    <div class="scene-inner">
+      <div class="reveal intro-title" data-stage="0" style="top:86px">
+        <div class="intro-line" style="font-size:86px">不是越多越强</div>
+        <div class="intro-line" style="font-size:86px;color:var(--orange)">是分工越清楚越稳</div>
+      </div>
+      <div class="list-stack">
+        <div class="reveal summary-item card-orange" data-stage="1"><span>选题拆书</span><b>oh-story</b></div>
+        <div class="reveal summary-item card-blue" data-stage="1"><span>搭大纲</span><b>Sumeru</b></div>
+        <div class="reveal summary-item card-red" data-stage="1"><span>写正文防吃书</span><b>Webnovel Writer</b></div>
+        <div class="reveal summary-item card-green" data-stage="1"><span>多 Agent 修复</span><b>InkOS</b></div>
+        <div class="reveal summary-item card-lilac" data-stage="1"><span>去 AI 味</span><b>Humanizer zh</b></div>
+        <div class="reveal summary-item card-orange" data-stage="1"><span>新手开书</span><b>自动章节</b></div>
+      </div>
+      <div class="reveal center-tag" data-stage="2" style="top:820px">把 Skill 当岗位，而不是当收藏夹</div>
+    </div>
+  </div>
+
+  <div class="avatar-label">小C</div>
+  <div class="avatar-shell">
+    <video id="avatar-a" class="clip media" data-start="0" data-duration="40.656" data-track-index="0" src="assets/avatar-head.mp4" muted playsinline></video>
+  </div>
+  <div class="subtitle-strip">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="subtitle-zh" id="zh-text"></div>
+  </div>
+</div>
+<script>
+const SCENES = [
+  { idx: 0, start: 0, end: 5.712, zh: "这个视频讲的是,用 Codex 写小说,六个 Skill 该怎么分工" },
+  { idx: 1, start: 5.712, end: 10.992, zh: "第一个 oh-story,负责选题拆书,扫描热榜,沉淀素材模块" },
+  { idx: 2, start: 10.992, end: 15.6, zh: "第二个 Sumeru,负责搭大纲,把小说拆成可以执行的工程" },
+  { idx: 3, start: 15.6, end: 20.664, zh: "第三个 Webnovel Writer,负责写正文防吃书,自动记住上下文" },
+  { idx: 4, start: 20.664, end: 25.08, zh: "第四个 InkOS,负责防止越写越崩,让多个 Agent 审稿和修复" },
+  { idx: 5, start: 25.08, end: 30.384, zh: "第五个 Humanizer zh,负责去 AI 味,把机器感逐条替换" },
+  { idx: 6, start: 30.384, end: 35.424, zh: "第六个是新手开书,自动生成章节,检查重写,并记住创作偏好" },
+  { idx: 7, start: 35.424, end: 40.656, zh: "最后记住,不是 Skill 越多越强,是分工越清楚,工作流越稳" }
+];
+const DURATION = 40.656;
+const tl = gsap.timeline({ paused: true });
+const sceneEls = SCENES.map(s => document.getElementById("scene-" + s.idx));
+const elZh = document.getElementById("zh-text");
+const elProgress = document.getElementById("progress-fill");
+
+function renderSubtitle(text) {
+  elZh.innerHTML = [...text].map((c, i) => `<span class="zw" data-i="${i}">${c}</span>`).join("");
+}
+
+renderSubtitle(SCENES[0].zh);
+gsap.set(sceneEls[0], { opacity: 1 });
+gsap.set(sceneEls.slice(1), { opacity: 0 });
+
+SCENES.forEach((scene, idx) => {
+  const scn = sceneEls[idx];
+  const reveals = Array.from(scn.querySelectorAll(".reveal"));
+  gsap.set(reveals, { opacity: 0, y: 22, scale: .96 });
+
+  if (idx > 0) {
+    tl.call(() => {
+      sceneEls[idx - 1].style.opacity = "0";
+      scn.style.opacity = "1";
+    }, [], scene.start);
+    tl.call(() => {
+      gsap.set(reveals, { opacity: 0, y: 22, scale: .96 });
+    }, [], scene.start);
+  }
+
+  const stages = {};
+  reveals.forEach(node => {
+    const stage = Number(node.dataset.stage || 0);
+    (stages[stage] = stages[stage] || []).push(node);
+  });
+
+  Object.keys(stages).forEach(stageKey => {
+    const stage = Number(stageKey);
+    const at = scene.start + [0.06, .85, 1.65, 2.45, 3.25][Math.min(stage, 4)];
+    stages[stage].forEach((node, order) => {
+      tl.fromTo(node,
+        { opacity: 0, y: 22, scale: .94 },
+        { opacity: 1, y: 0, scale: 1, duration: .5, ease: "back.out(1.08)" },
+        at + order * .08
+      );
+    });
+  });
+
+  const chars = [...scene.zh];
+  const slice = (scene.end - scene.start) / chars.length;
+  tl.call(() => {
+    gsap.set(elZh, { opacity: 1 });
+    renderSubtitle(scene.zh);
+  }, [], scene.start);
+
+  chars.forEach((_, i) => {
+    const onAt = scene.start + i * slice + slice * .1;
+    const offAt = scene.start + (i + 1) * slice - slice * .1;
+    tl.call(() => {
+      const sp = elZh.querySelector('.zw[data-i="' + i + '"]');
+      if (sp) sp.classList.add("active");
+    }, [], onAt);
+    tl.call(() => {
+      const sp = elZh.querySelector('.zw[data-i="' + i + '"]');
+      if (sp) {
+        sp.classList.remove("active");
+        sp.classList.add("past");
+      }
+    }, [], offAt);
+  });
+});
+
+tl.to(elProgress, { width: "100%", duration: DURATION, ease: "none" }, 0);
+
+window.__timelines = window.__timelines || {};
+window.__timelines.cartoon = tl;
+</script>
+</body>
+</html>

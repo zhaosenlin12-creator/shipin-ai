@@ -21,6 +21,7 @@ cangjie-skill/
 tools/ditto-talkinghead/
 
 # Local runtime state and generated build output
+local/
 .jobs/
 .superpowers/
 analysis/
@@ -33,6 +34,10 @@ project/node_modules/
 project/hyperframes-first120/output/
 project/hyperframes-first120/diagnostics/
 project/hyperframes-first120/.render-work/
+project/hyperframes-first180/output/
+project/hyperframes-first180/renders/
+project/hyperframes-first180/snapshots/
+project/hyperframes-douyin-codex-novel/output/
 project/audio/
 project/public/*.wav
 project/public/*.mp3
@@ -49,6 +54,13 @@ project/public/generated/*.jpeg
 project/public/generated/*.mp4
 project/hyperframes-first120/assets/*.wav
 project/hyperframes-first120/assets/*.mp4
+project/hyperframes-first180/assets/*.wav
+project/hyperframes-first180/assets/*.mp3
+project/hyperframes-first180/assets/*.mp4
+project/hyperframes-first180/assets/*.pkl
+project/hyperframes-douyin-codex-novel/assets/*.wav
+project/hyperframes-douyin-codex-novel/assets/*.mp3
+project/hyperframes-douyin-codex-novel/assets/*.mp4
 
 # Local credentials and machine-specific files
 .env
@@ -59,3 +71,20 @@ project/hyperframes-first120/assets/*.mp4
 *secret*
 *token*
 tools/ffmpeg-probe-staging/
+
+# Root-level iteration debris from video tuning sessions
+_*.py
+_*.ps1
+_*.png
+_*.jpg
+_*.jpeg
+_*.wav
+_*.mp3
+_*.mp4
+_*.json
+_*.txt
+_*.log
+
+# Private presenter source assets kept only on the production machine
+project/hyperframes-first180/assets/_face_source.png
+project/hyperframes-first180/assets/presenter-plate.png

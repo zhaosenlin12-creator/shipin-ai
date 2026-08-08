@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "skill": "cartoon-clip-pipeline",
+  "entry": "index.html",
+  "width": 1920,
+  "height": 1080,
+  "fps": 60
+}
